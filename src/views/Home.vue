@@ -18,6 +18,18 @@
       >
         {{ item }}
       </div>
+
+      <div
+        v-for="item in allowedColumns"
+        :key="item"
+        :style="{
+          color: column === item ? 'red' : 'green'
+        }"
+        class="page-column"
+      >
+        {{ item }}
+      </div>
+
       <button @click="createSheet">创建纸张</button>
     </div>
   </div>
@@ -34,7 +46,14 @@ export default {
     return {
       allowedSize: AnswerSheet.AllowedSheetSize,
       sheet: null,
-      size: AnswerSheet.AllowedSheetSize[0]
+      size: AnswerSheet.AllowedSheetSize[0],
+      column: 3
+    }
+  },
+
+  computed: {
+    allowedColumns () {
+      return SHEET_COLUMN[this.size]
     }
   },
 
