@@ -5,6 +5,11 @@ export const SHEET_SIZE = {
   A4: 'A4'
 }
 
+export const SHEET_SIZE_LABEL = {
+  [SHEET_SIZE.A4]: 'A4/B5纸',
+  [SHEET_SIZE.A3]: 'A3/B4/8K纸'
+}
+
 export const SHEET_COLUMN = {
   [SHEET_SIZE.A3]: [2, 3],
   [SHEET_SIZE.A4]: [1]

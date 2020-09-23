@@ -20,7 +20,7 @@
             @click="updateSettings(item)"
           >
             <div :class="['paper-size',item]">{{ item }}</div>
-            <div>A3/B4/8K纸</div>
+            <div>{{ getSizeLabel(item) }}</div>
           </div>
         </el-col>
       </el-row>
@@ -56,7 +56,7 @@
 
 <script>
 
-import AnswerSheet, { SHEET_COLUMN } from '@/models/answer-sheet'
+import AnswerSheet, { SHEET_COLUMN, SHEET_SIZE_LABEL } from '@/models/answer-sheet'
 
 import { Row, Col } from 'element-ui'
 import hjDialog from '@/components/elementUi/dialog'
@@ -96,6 +96,10 @@ export default {
     })
   },
   methods: {
+    getSizeLabel (size) {
+      return SHEET_SIZE_LABEL[size]
+    },
+
     handleClose () {
       this.dialogVisible = false
     },
