@@ -21,15 +21,16 @@ export default class AnswerSheet {
   }
 
   constructor (attrs = {}) {
+    const settings = attrs.settings || {}
     this.title = attrs.title || ''
     this.settings = {}
     this.student = new Student(attrs.studentInfos)
 
     this.updateSettings({
-      size: this.constructor.AllowedSheetSize.includes(attrs.settings.size)
-        ? attrs.settings.size
+      size: this.constructor.AllowedSheetSize.includes(settings.size)
+        ? settings.size
         : SHEET_SIZE.A3,
-      column: attrs.settings.column
+      column: settings.column
     })
   }
 
