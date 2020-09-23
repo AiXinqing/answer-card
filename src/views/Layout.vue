@@ -18,7 +18,10 @@
         </div>
       </div>
     </div>
-    <setting-modal ref="settingModal" />
+    <setting-modal
+      ref="settingModal"
+      @update-settings="updateSettings"
+    />
   </div>
 </template>
 
@@ -65,10 +68,10 @@ export default {
 
   methods: {
     openSettingModal () {
-      this.$refs.settingModal.handleOpen(Boolean(this.sheet))
+      this.$refs.settingModal.open(this.sheet)
     },
 
-    updateSetting () {
+    updateSettings (settings) {
       this.$confirm(
         `<div class="Prompt_info">
           <i class="el-icon-question"></i>修改后将会清空所有手动修改的内容，确定修改吗？
@@ -78,7 +81,7 @@ export default {
           dangerouslyUseHTMLString: true
         }
       ).then(() => {
-        console.log('1')
+        this.sheet.updateSettings(settings)
       }).catch(() => {
         console.log('0')
       })

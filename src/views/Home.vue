@@ -14,7 +14,7 @@
 </template>
 
 <script>
-
+import AnswerSheet from '@/models/answer-sheet'
 import Head from './Head'
 import Layout from './Layout'
 import BasicSettings from './BasicSettings'
@@ -30,7 +30,11 @@ export default {
   },
   data () {
     return {
-      sheet: null
+      sheet: new AnswerSheet({
+        settings: {
+          size: AnswerSheet.AllowedSheetSize[1]
+        }
+      })
     }
   },
   computed: {

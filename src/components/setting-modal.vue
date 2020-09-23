@@ -12,15 +12,15 @@
         <el-col :span="18" class="layout-box">
           <div
             v-for="item in allowedSize"
-            :key="item"
+            :key="item.value"
             :style="{
-              color: size === item ? '#1ab394' : '#b4b4b4'
+              color: size === item.value ? '#1ab394' : '#b4b4b4'
             }"
             class="layout-size"
-            @click="updateSettings(item)"
+            @click="size = item.value"
           >
-            <div :class="['paper-size',item]">{{ item }}</div>
-            <div>{{ getSizeLabel(item) }}</div>
+            <div :class="['paper-size',item.value]">{{ item.value }}</div>
+            <div>{{ item.label }}</div>
           </div>
         </el-col>
       </el-row>
@@ -29,26 +29,31 @@
         <el-col :span="18" class="layout-box">
           <div
             v-for="item in allowedColumns"
-            :key="item"
+            :key="item.value"
             :style="{
-              color: column === item ? '#1ab394' : '#b4b4b4'
+              color: column === item.value ? '#1ab394' : '#b4b4b4'
             }"
             class="page-column"
-            @click="upadteSetColumn(item)"
+            @click="column = item.value"
           >
-            <div :class="['paper-size',item]"></div>
-            <div>{{ item }}栏</div>
+            <div :class="['paper-size',item.value]"></div>
+            <div>{{ item.label }}</div>
           </div>
         </el-col>
       </el-row>
     </div>
-
-    <div class="dialog-footer createLayout" v-if="!editLayout">
-      <hj-button type="confirm" class="confirm"  @click="handleDetermine">创建</hj-button>
-    </div>
-    <div class="dialog-footer " v-else>
-      <hj-button type="cancel" class="cancel" @click="handleClose">取 消</hj-button>
-      <hj-button type="confirm" class="confirm"  @click="handleDetermine">确 定</hj-button>
+    <div class="dialog-footer ">
+      <hj-button
+        v-if="sheet"
+        type="cancel"
+        class="cancel"
+        @click="handleClose"
+      >取 消</hj-button>
+      <hj-button
+        type="confirm"
+        class="confirm"
+        @click="handleDetermine"
+      >{{ suretext }}</hj-button>
     </div>
   </hj-dialog>
 
@@ -56,8 +61,7 @@
 
 <script>
 
-import AnswerSheet, { SHEET_COLUMN, SHEET_SIZE_LABEL } from '@/models/answer-sheet'
-import { STUDENT_INFO } from '@/models/student'
+import AnswerSheet, { SHEET_SIZE_LABEL } from '@/models/answer-sheet'
 
 import { Row, Col } from 'element-ui'
 import hjDialog from '@/components/elementUi/dialog'
@@ -72,58 +76,65 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      editLayout: false,
-      allowedSize: AnswerSheet.AllowedSheetSize,
-      sheet: null,
-      size: AnswerSheet.AllowedSheetSize[0],
-      column: 2
+      sheet: new AnswerSheet()
     }
   },
   computed: {
     title () {
-      return !this.editLayout ? '创建答题卡' : '编辑答题卡'
+      return this.sheet ? '编辑答题卡' : '创建答题卡'
+    },
+    suretext () {
+      return this.sheet ? '确 定' : '创 建'
+    },
+    size: {
+      get () {
+        return this.sheet.settings.size
+      },
+      set (size) {
+        this.sheet.updateSettings({
+          size,
+          column: this.sheet.settings.column
+        })
+      }
+    },
+    column: {
+      get () {
+        return this.sheet.settings.column
+      },
+      set (column) {
+        this.sheet.updateSettings({
+          size: this.sheet.settings.size,
+          column
+        })
+      }
+    },
+    allowedSize () {
+      return AnswerSheet.AllowedSheetSize.map(size => ({
+        value: size,
+        label: SHEET_SIZE_LABEL[size]
+      }))
     },
     allowedColumns () {
-      return SHEET_COLUMN[this.size]
+      return this.sheet.allowedColumns.map(column => ({
+        value: column,
+        label: `${column}栏`
+      }))
     }
   },
-  mounted () {
-    this.sheet = new AnswerSheet({
-      settings: {
-        size: this.size,
-        column: this.column
-      },
-      studentInfos: [STUDENT_INFO.candidateNumber, STUDENT_INFO.name]
-    })
-  },
   methods: {
-    getSizeLabel (size) {
-      return SHEET_SIZE_LABEL[size]
-    },
-
     handleClose () {
       this.dialogVisible = false
     },
-    handleOpen (edit = false) {
-      if (edit) {
-        this.editLayout = edit
-      }
+    open (sheet) {
       this.dialogVisible = true
+      if (sheet) this.sheet = new AnswerSheet(sheet.toJSON())
     },
     handleDetermine () {
       this.dialogVisible = false
-    },
-    updateSettings (size) {
-      this.size = size
-      const column = SHEET_COLUMN[size][Math.floor(Math.random() * SHEET_COLUMN[size].length)]
-      this.column = column
-      this.sheet.updateSettings({
-        size,
-        column
+      this.$emit('update-settings', {
+        size: this.size,
+        column: this.column
       })
-    },
-    upadteSetColumn (column) {
-      this.column = column
     }
   }
 }
