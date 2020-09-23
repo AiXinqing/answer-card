@@ -67,6 +67,10 @@ export default {
   .dialog-footer {
     text-align: right;
     padding-top: 20px;
+    .el-button{
+      font-size: 14px;
+      border: none;
+    }
   }
   .dialog-footer > div {
     display: inline-block;
@@ -74,10 +78,7 @@ export default {
   .dialog-footer > div:nth-of-type(1) {
     margin-right: 15px;
   }
-  .el-button{
-    font-size: 14px;
-    border: none;
-  }
+
   .el-button.cancel{
     margin-right: 15px;
     background-color: #f1f1f1;
