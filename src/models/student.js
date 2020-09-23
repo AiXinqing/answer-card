@@ -15,7 +15,7 @@ export const STUDENT_INFO_LABEL = {
 }
 
 export default class Student {
-  constructor (attrs = [], sheet) {
+  constructor (attrs = [STUDENT_INFO.candidateNumber, STUDENT_INFO.name], sheet) {
     this.sheet = sheet
 
     this.updateInfos(attrs)

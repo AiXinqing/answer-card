@@ -15,6 +15,29 @@ export const SHEET_COLUMN = {
   [SHEET_SIZE.A4]: [1]
 }
 
+// 只有符合 compare 条件的答题卡尺寸才能使用对应的 range
+const SHEET_NUMBER_RANGES = [
+  {
+    range: [4, 9],
+    compare ({ size, column }) {
+      return (size === SHEET_SIZE.A3) && (column === SHEET_COLUMN[SHEET_SIZE.A3][1])
+    }
+  },
+  {
+    range: [4, 12],
+    compare ({ size, column }) {
+      return (size !== SHEET_SIZE.A3) || (column !== SHEET_COLUMN[SHEET_SIZE.A3][1])
+    }
+  },
+  {
+    // 默认的考号范围，该值一定要放最后，以确保前面的匹配不到的时候才会使用该值
+    range: [4, 12],
+    compare () {
+      return true
+    }
+  }
+]
+
 export default class AnswerSheet {
   static get AllowedSheetSize () {
     return Object.values(SHEET_SIZE)
@@ -24,7 +47,7 @@ export default class AnswerSheet {
     const settings = attrs.settings || {}
     this.title = attrs.title || ''
     this.settings = {}
-    this.student = new Student(attrs.studentInfos)
+    this.student = new Student(attrs.studentInfos, this)
 
     this.updateSettings({
       size: this.constructor.AllowedSheetSize.includes(settings.size)
@@ -34,10 +57,8 @@ export default class AnswerSheet {
     })
   }
 
-  get ticketNumberRange () {
-    return (this.settings.size === SHEET_SIZE.A3) && (this.settings.column === 3)
-      ? [4, 9]
-      : [4, 12]
+  get sheetNumberRange () {
+    return SHEET_NUMBER_RANGES.find(range => range.compare(this.settings)).range
   }
 
   get allowedColumns () {
