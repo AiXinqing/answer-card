@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~@/assets/css/variables.less';
+@import '~@/assets/css/publicColor.less';
 .head-title {
   height: 50px;
   line-height: 50px;
