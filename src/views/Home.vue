@@ -3,6 +3,7 @@
     <Head />
     <Layout />
     <div class="main-content">
+      <page-container/>
       <basic-settings/>
     </div>
     <!-- <div v-if="sheet">
@@ -47,13 +48,15 @@ import AnswerSheet, { SHEET_COLUMN } from '@/models/answer-sheet'
 import Head from './Head'
 import Layout from './Layout'
 import BasicSettings from './BasicSettings'
+import PageContainer from './page/index'
 
 export default {
   name: 'Home',
   components: {
     Head,
     Layout,
-    BasicSettings
+    BasicSettings,
+    PageContainer
   },
   data () {
     return {
