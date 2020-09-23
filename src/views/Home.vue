@@ -7,6 +7,7 @@
     />
     <div class="main-content">
       <page-container
+        v-if="sheet"
         :sheet="sheet"
       />
       <basic-settings
@@ -35,9 +36,6 @@ export default {
     return {
       sheet: null
     }
-  },
-  computed: {
-
   },
   methods: {
     createSheet (attrs) {

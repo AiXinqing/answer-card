@@ -1,24 +1,24 @@
 <template>
   <div class="page-container">
     <div class="page_number_content">
-      <answer-sheet-title/>
+      <answer-sheet-info :sheet="sheet" />
     </div>
   </div>
 </template>
 
 <script>
 import AnswerSheet from '@/models/answer-sheet'
-import AnswerSheetTitle from './answerSheetTitle'
+import AnswerSheetInfo from './answerSheetInfo'
 
 export default {
   components: {
-    AnswerSheetTitle
+    AnswerSheetInfo
   },
 
   props: {
     sheet: {
       type: AnswerSheet,
-      default: null
+      required: true
     }
   }
 }

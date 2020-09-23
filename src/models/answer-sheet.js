@@ -47,7 +47,7 @@ export default class AnswerSheet {
     const settings = attrs.settings || {}
     this.title = attrs.title || ''
     this.settings = {}
-    this.student = new Student(attrs.studentInfos, this)
+    this.student = new Student(attrs.student, this)
 
     this.updateSettings({
       size: this.constructor.AllowedSheetSize.includes(settings.size)
@@ -55,8 +55,11 @@ export default class AnswerSheet {
         : SHEET_SIZE.A3,
       column: settings.column
     })
+
+    this.setSheetNumberLength(attrs.sheetNumberLength || 12)
   }
 
+  // 准考证号的范围
   get sheetNumberRange () {
     return SHEET_NUMBER_RANGES.find(range => range.compare(this.settings)).range
   }
@@ -84,10 +87,16 @@ export default class AnswerSheet {
     }
   }
 
+  // 设置准考证号的长度
+  setSheetNumberLength (length) {
+    const [min, max] = this.sheetNumberRange
+    this.sheetNumberLength = Math.min(Math.max(min, length), max)
+  }
+
   toJSON () {
     return {
       ...this,
-      studentInfos: this.student.toJSON()
+      student: this.student.toJSON()
     }
   }
 }

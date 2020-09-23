@@ -4,9 +4,12 @@
       type="textarea"
       :rows="2"
       placeholder="请输入内容"
-      v-model="textarea">
+      v-model="sheet.title">
     </el-input>
-    <student-info @hanldeStudent="hanldeStudent" :preview-is="previewIs" />
+    <student-info
+      :student="sheet.student"
+      @hanldeStudent="hanldeStudent"
+    />
     <el-row class="precautions_box">
       <el-col
         :span="12"
@@ -79,14 +82,13 @@
         </div>
       </el-col>
       <el-col
-        :span="12"
+        :span="sheet.sheetNumberLength"
         class="precautions_right"
         :style="{ width: titleWidthRight + 'px' }"
       >
         <div class="ticket_number">
           准考证号
           <span
-            v-show="!previewIs"
             class="precautions_edit layui-btn layui-btn-xs"
             @click="editAdmissionNumber"
             >编辑</span
@@ -116,8 +118,10 @@
 </template>
 
 <script>
+import AnswerSheet from '@/models/answer-sheet'
 import { Row, Col, Input } from 'element-ui'
 import studentInfo from './subassembly/studentInfo'
+
 export default {
   components: {
     elInput: Input,
@@ -126,9 +130,9 @@ export default {
     studentInfo
   },
   props: {
-    previewIs: {
-      type: Boolean,
-      default: false
+    sheet: {
+      type: AnswerSheet,
+      required: true
     }
   },
   data () {
