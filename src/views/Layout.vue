@@ -64,7 +64,7 @@ export default {
     },
     PromptFunc () {
       this.closePrompt()
-      this.$refs.settingModal.handleOpen()
+      this.$refs.settingModal.handleOpen(true)
     }
   }
 }
