@@ -88,4 +88,11 @@ export default {
     background-color: @main;
     color: @white
   }
+  .dialog-footer{
+    .el-button{
+      height: 30px;
+      line-height: 29px;
+      padding: 0 15px
+    }
+  }
 </style>
