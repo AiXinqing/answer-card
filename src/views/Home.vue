@@ -6,45 +6,11 @@
       <page-container/>
       <basic-settings/>
     </div>
-    <!-- <div v-if="sheet">
-      {{ sheet.toJSON() }}
-
-      <button @click="updateSettings">
-        修改纸张
-      </button>
-    </div>
-    <div v-else>
-      <div
-        v-for="item in allowedSize"
-        :key="item"
-        :style="{
-          color: size === item ? 'red' : 'blue'
-        }"
-        class="page-size"
-      >
-        {{ item }}
-      </div>
-
-      <div
-        v-for="item in allowedColumns"
-        :key="item"
-        :style="{
-          color: column === item ? 'red' : 'green'
-        }"
-        class="page-column"
-      >
-        {{ item }}
-      </div>
-
-      <button @click="createSheet">创建纸张</button>
-    </div> -->
      <setting-modal ref="settingModal"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import AnswerSheet, { SHEET_COLUMN } from '@/models/answer-sheet'
 
 import Head from './Head'
 import Layout from './Layout'
@@ -65,43 +31,37 @@ export default {
   },
   data () {
     return {
-      allowedSize: AnswerSheet.AllowedSheetSize,
-      sheet: null,
-      size: AnswerSheet.AllowedSheetSize[0],
-      column: 3
     }
   },
   computed: {
-    allowedColumns () {
-      return SHEET_COLUMN[this.size]
-    }
+
   },
   mounted () {
     this.$refs.settingModal.handleOpen()
   },
   methods: {
     // 模拟更改布局
-    updateSettings () {
-      const size = this.size
-      const column = SHEET_COLUMN[size][Math.floor(Math.random() * SHEET_COLUMN[size].length)]
-      this.sheet.updateSettings({
-        size,
-        column
-      })
-      console.log(size, column)
-    },
+    // updateSettings () {
+    //   const size = this.size
+    // const column = SHEET_COLUMN[size][Math.floor(Math.random() * SHEET_COLUMN[size].length)]
+    // this.sheet.updateSettings({
+    //   size,
+    //   column
+    // })
+    //   console.log(size, column)
+    // },
 
-    // 模拟创建答题卡
-    createSheet () {
-      const column = 4
-      this.sheet = new AnswerSheet({
-        settings: {
-          size: this.size,
-          column
-        },
-        studentInfos: []
-      })
-    }
+    // // 模拟创建答题卡
+    // createSheet () {
+    //   const column = 4
+    //   this.sheet = new AnswerSheet({
+    //     settings: {
+    //       size: this.size,
+    //       column
+    //     },
+    //     studentInfos: []
+    //   })
+    // }
   }
 }
 </script>
