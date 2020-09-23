@@ -6,7 +6,7 @@
       <page-container/>
       <basic-settings/>
     </div>
-     <setting-modal ref="settingModal"/>
+    <setting-modal ref="settingModal"/>
   </div>
 </template>
 
@@ -40,28 +40,6 @@ export default {
     this.$refs.settingModal.handleOpen()
   },
   methods: {
-    // 模拟更改布局
-    // updateSettings () {
-    //   const size = this.size
-    // const column = SHEET_COLUMN[size][Math.floor(Math.random() * SHEET_COLUMN[size].length)]
-    // this.sheet.updateSettings({
-    //   size,
-    //   column
-    // })
-    //   console.log(size, column)
-    // },
-
-    // // 模拟创建答题卡
-    // createSheet () {
-    //   const column = 4
-    //   this.sheet = new AnswerSheet({
-    //     settings: {
-    //       size: this.size,
-    //       column
-    //     },
-    //     studentInfos: []
-    //   })
-    // }
   }
 }
 </script>
