@@ -57,6 +57,7 @@
 <script>
 
 import AnswerSheet, { SHEET_COLUMN, SHEET_SIZE_LABEL } from '@/models/answer-sheet'
+import { STUDENT_INFO } from '@/models/student'
 
 import { Row, Col } from 'element-ui'
 import hjDialog from '@/components/elementUi/dialog'
@@ -92,7 +93,7 @@ export default {
         size: this.size,
         column: this.column
       },
-      studentInfos: []
+      studentInfos: [STUDENT_INFO.candidateNumber, STUDENT_INFO.name]
     })
   },
   methods: {

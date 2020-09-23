@@ -23,7 +23,7 @@ export default class AnswerSheet {
   constructor (attrs = {}) {
     this.title = attrs.title || ''
     this.settings = {}
-    this.studentInfos = new Student(attrs.studentInfos)
+    this.student = new Student(attrs.studentInfos)
 
     this.updateSettings({
       size: this.constructor.AllowedSheetSize.includes(attrs.settings.size)
