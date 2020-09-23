@@ -1,12 +1,17 @@
 <template>
   <div class="page-container">
-    <div class="page_number_content"></div>
+    <div class="page_number_content">
+      <answer-sheet-title/>
+    </div>
   </div>
 </template>
 
 <script>
+import AnswerSheetTitle from './answerSheetTitle'
 export default {
-
+  components: {
+    AnswerSheetTitle
+  }
 }
 </script>
 
@@ -30,6 +35,12 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       margin-bottom: 20px;
+      .question_card{
+        position: relative;
+        width: calc(100% - 38px);
+        margin-left: 19px;
+        margin-top: 20px;
+      }
     }
   }
 </style>
