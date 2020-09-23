@@ -1,6 +1,11 @@
 <template>
-  <div class="home">
-    <div v-if="sheet">
+  <div class="page-content">
+    <Head />
+    <Layout />
+    <div class="main-content">
+      <basic-settings/>
+    </div>
+    <!-- <div v-if="sheet">
       {{ sheet.toJSON() }}
 
       <button @click="updateSettings">
@@ -31,7 +36,7 @@
       </div>
 
       <button @click="createSheet">创建纸张</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -39,9 +44,17 @@
 // @ is an alias to /src
 import AnswerSheet, { SHEET_COLUMN } from '@/models/answer-sheet'
 
+import Head from './Head'
+import Layout from './Layout'
+import BasicSettings from './BasicSettings'
+
 export default {
   name: 'Home',
-
+  components: {
+    Head,
+    Layout,
+    BasicSettings
+  },
   data () {
     return {
       allowedSize: AnswerSheet.AllowedSheetSize,
@@ -83,3 +96,25 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+@import '~@/assets/css/variables.less';
+@import '~@/assets/css/publicColor.less';
+.page-content{
+  height: 100%;
+  width: 100%;
+}
+.main-content{
+  height: calc(100% - 50px);
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  .basic-set-content{
+    width: 320px;
+    float: right;
+    border-left: 1px solid @shadow;
+    height: 100%;
+    background: @white;
+  }
+}
+</style>
