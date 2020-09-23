@@ -38,6 +38,7 @@
 
       <button @click="createSheet">创建纸张</button>
     </div> -->
+     <setting-modal ref="settingModal"/>
   </div>
 </template>
 
@@ -50,13 +51,17 @@ import Layout from './Layout'
 import BasicSettings from './BasicSettings'
 import PageContainer from './page/index'
 
+// dialog
+import settingModal from '@/components/setting-modal'
+
 export default {
   name: 'Home',
   components: {
     Head,
     Layout,
     BasicSettings,
-    PageContainer
+    PageContainer,
+    settingModal
   },
   data () {
     return {
@@ -66,13 +71,14 @@ export default {
       column: 3
     }
   },
-
   computed: {
     allowedColumns () {
       return SHEET_COLUMN[this.size]
     }
   },
-
+  mounted () {
+    this.$refs.settingModal.handleOpen()
+  },
   methods: {
     // 模拟更改布局
     updateSettings () {
