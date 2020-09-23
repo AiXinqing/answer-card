@@ -3,7 +3,7 @@
     :title="title"
     :visible.sync="dialogVisible"
     :width="'500px'"
-    :before-close="handleClose"
+    :before-close="close"
     :show-close="false"
   >
     <div class="layout-setting-box">
@@ -44,10 +44,10 @@
     </div>
     <div class="dialog-footer ">
       <hj-button
-        v-if="sheet"
+        v-if="editing"
         type="cancel"
         class="cancel"
-        @click="handleClose"
+        @click="close"
       >取 消</hj-button>
       <hj-button
         type="confirm"
@@ -76,15 +76,16 @@ export default {
   data () {
     return {
       dialogVisible: false,
+      editing: false,
       sheet: new AnswerSheet()
     }
   },
   computed: {
     title () {
-      return this.sheet ? '编辑答题卡' : '创建答题卡'
+      return this.editing ? '编辑答题卡' : '创建答题卡'
     },
     suretext () {
-      return this.sheet ? '确 定' : '创 建'
+      return this.editing ? '确 定' : '创 建'
     },
     size: {
       get () {
@@ -122,19 +123,24 @@ export default {
     }
   },
   methods: {
-    handleClose () {
-      this.dialogVisible = false
-    },
     open (sheet) {
       this.dialogVisible = true
-      if (sheet) this.sheet = new AnswerSheet(sheet.toJSON())
+      if (sheet) {
+        this.sheet = new AnswerSheet(sheet.toJSON())
+        this.editing = true
+      }
     },
     handleDetermine () {
-      this.dialogVisible = false
+      this.close()
       this.$emit('update-settings', {
         size: this.size,
         column: this.column
       })
+    },
+
+    close () {
+      this.dialogVisible = false
+      this.editing = false
     }
   }
 }

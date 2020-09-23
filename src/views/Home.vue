@@ -1,7 +1,10 @@
 <template>
   <div class="page-content">
     <Head />
-    <Layout :sheet="sheet" />
+    <Layout
+      :sheet="sheet"
+      @create-sheet="createSheet"
+    />
     <div class="main-content">
       <page-container
         :sheet="sheet"
@@ -30,17 +33,16 @@ export default {
   },
   data () {
     return {
-      sheet: new AnswerSheet({
-        settings: {
-          size: AnswerSheet.AllowedSheetSize[1]
-        }
-      })
+      sheet: null
     }
   },
   computed: {
 
   },
   methods: {
+    createSheet (attrs) {
+      this.sheet = new AnswerSheet(attrs)
+    }
   }
 }
 </script>

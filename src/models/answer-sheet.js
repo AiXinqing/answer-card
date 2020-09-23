@@ -66,7 +66,7 @@ export default class AnswerSheet {
   toJSON () {
     return {
       ...this,
-      studentInfos: this.studentInfos.toJSON()
+      studentInfos: this.student.toJSON()
     }
   }
 }

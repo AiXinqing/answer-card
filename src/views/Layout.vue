@@ -68,23 +68,33 @@ export default {
 
   methods: {
     openSettingModal () {
-      this.$refs.settingModal.open(this.sheet)
+      if (this.sheet) {
+        this.$confirm(
+          `<div class="Prompt_info">
+            <i class="el-icon-question"></i>修改后将会清空所有手动修改的内容，确定修改吗？
+          </div>`,
+          '提示',
+          {
+            dangerouslyUseHTMLString: true
+          }
+        ).then(() => {
+          this.$refs.settingModal.open(this.sheet)
+        }).catch(() => {
+          console.log('cancel')
+        })
+      } else {
+        this.$refs.settingModal.open(this.sheet)
+      }
     },
 
     updateSettings (settings) {
-      this.$confirm(
-        `<div class="Prompt_info">
-          <i class="el-icon-question"></i>修改后将会清空所有手动修改的内容，确定修改吗？
-        </div>`,
-        '提示',
-        {
-          dangerouslyUseHTMLString: true
-        }
-      ).then(() => {
+      if (this.sheet) {
         this.sheet.updateSettings(settings)
-      }).catch(() => {
-        console.log('0')
-      })
+      } else {
+        this.$emit('create-sheet', {
+          settings
+        })
+      }
     }
   }
 }
