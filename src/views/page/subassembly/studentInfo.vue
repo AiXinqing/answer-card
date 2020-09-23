@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     editStudentInfoColumn () {
-      console.log('打开编辑学生信息的模态框')
+      console.log('打开编辑学生信息的模态框, 关闭的时候调用this.student.updateInfo(new_info_array)')
     }
   }
 }

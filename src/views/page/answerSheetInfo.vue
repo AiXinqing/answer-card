@@ -156,7 +156,7 @@ export default {
   },
   methods: {
     editAdmissionNumber () {
-
+      console.log('打开编辑准考证号长度的模态框，关闭的时候调用 this.sheet.setSheetNumberLength(new_length)')
     },
     hanldeStudent () {
 
