@@ -45,8 +45,6 @@ export default {
 }
 .main-content{
   height: calc(100% - 50px);
-  position: absolute;
-  top: 50px;
   width: 100%;
   .basic-set-content{
     width: 320px;
