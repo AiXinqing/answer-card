@@ -5,4 +5,8 @@
 </template>
 
 <style lang="less">
+  div#app {
+    height: 100%;
+    overflow: hidden;
+  }
 </style>
