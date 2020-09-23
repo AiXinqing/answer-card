@@ -43,7 +43,7 @@
       </el-row>
     </div>
 
-    <div class="dialog-footer createLayout" v-if="createLayout">
+    <div class="dialog-footer createLayout" v-if="!editLayout">
       <hj-button type="confirm" class="confirm"  @click="handleDetermine">创建</hj-button>
     </div>
     <div class="dialog-footer " v-else>
@@ -71,7 +71,7 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      createLayout: true,
+      editLayout: false,
       allowedSize: AnswerSheet.AllowedSheetSize,
       sheet: null,
       size: AnswerSheet.AllowedSheetSize[0],
@@ -80,7 +80,7 @@ export default {
   },
   computed: {
     title () {
-      return '创建答题卡'
+      return !this.editLayout ? '创建答题卡' : '编辑答题卡'
     },
     allowedColumns () {
       return SHEET_COLUMN[this.size]
@@ -99,7 +99,10 @@ export default {
     handleClose () {
       this.dialogVisible = false
     },
-    handleOpen () {
+    handleOpen (edit = false) {
+      if (edit) {
+        this.editLayout = edit
+      }
       this.dialogVisible = true
     },
     handleDetermine () {
@@ -123,13 +126,6 @@ export default {
 
 <style lang="less" scoped>
   @import '~@/assets/css/publicColor.less';
-  .dialog-footer{
-    .el-button{
-      height: 30px;
-      line-height: 29px;
-      padding: 0 15px
-    }
-  }
   .el-col.el-col-6 {
     position: relative;
     top: 10px;
