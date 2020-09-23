@@ -16,12 +16,16 @@
         <!-- <div>线上阅卷</div> -->
       </div>
     </div>
+    <setting-modal/>
   </div>
 </template>
 
 <script>
+import settingModal from '@/components/setting-modal'
 export default {
-
+  components: {
+    settingModal
+  }
 }
 </script>
 
