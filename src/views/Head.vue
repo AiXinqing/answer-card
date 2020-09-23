@@ -18,6 +18,9 @@ export default {
 
 <style lang="less" scoped>
 @import '~@/assets/css/publicColor.less';
+.head-content{
+  height: 50px;
+}
 .head-title {
   height: 50px;
   line-height: 50px;
