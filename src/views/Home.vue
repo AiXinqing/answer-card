@@ -6,7 +6,6 @@
       <page-container/>
       <basic-settings/>
     </div>
-    <setting-modal ref="settingModal"/>
   </div>
 </template>
 
@@ -17,17 +16,13 @@ import Layout from './Layout'
 import BasicSettings from './BasicSettings'
 import PageContainer from './page/index'
 
-// dialog
-import settingModal from '@/components/setting-modal'
-
 export default {
   name: 'Home',
   components: {
     Head,
     Layout,
     BasicSettings,
-    PageContainer,
-    settingModal
+    PageContainer
   },
   data () {
     return {
@@ -35,9 +30,6 @@ export default {
   },
   computed: {
 
-  },
-  mounted () {
-    this.$refs.settingModal.handleOpen()
   },
   methods: {
   }
