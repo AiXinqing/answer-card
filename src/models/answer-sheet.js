@@ -7,7 +7,7 @@ export const SHEET_SIZE = {
 
 export const SHEET_COLUMN = {
   [SHEET_SIZE.A3]: [2, 3],
-  [SHEET_SIZE.A4]: [1, 2, 3]
+  [SHEET_SIZE.A4]: [1]
 }
 
 export default class AnswerSheet {
