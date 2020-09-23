@@ -3,17 +3,17 @@
     <div class="box">
       <div class="total-score">
         <span>当前总分:</span>
-        <span class="score_style">0</span>
+        <span class="score_style">{{ totalScore }}</span>
         <span>分</span>
       </div>
       <div class="layout-setting">
         <div class="layout-top">
           <span>布局</span>
-          <span class="layout-edit" @click="updateSetting">修改</span>
+          <span class="layout-edit" @click="openSettingModal">修改</span>
         </div>
         <div class="layout-bottom">
-          <div>A3/B4/8K纸</div>
-          <div>两栏</div>
+          <div>{{ sheetSizeLabel }}</div>
+          <div>{{ sheetColumnLabel }}</div>
           <!-- <div>线上阅卷</div> -->
         </div>
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import AnswerSheet from '@/models/answer-sheet'
+import AnswerSheet, { SHEET_SIZE_LABEL, SHEET_COLUMN } from '@/models/answer-sheet'
 // dialog
 import settingModal from '@/components/setting-modal'
 
@@ -38,10 +38,36 @@ export default {
       default: null
     }
   },
-  mounted () {
-    this.$refs.settingModal.handleOpen()
+
+  computed: {
+    totalScore () {
+      if (!this.sheet) return 0
+      // TODO: compute score by this.sheet
+      return 23
+    },
+
+    sheetSizeLabel () {
+      return this.sheet
+        ? SHEET_SIZE_LABEL[this.sheet.settings.size]
+        : SHEET_SIZE_LABEL[AnswerSheet.AllowedSheetSize[0]]
+    },
+
+    sheetColumnLabel () {
+      return this.sheet
+        ? `${this.sheet.settings.column}栏`
+        : `${SHEET_COLUMN[AnswerSheet.AllowedSheetSize[0]][0]}栏`
+    }
   },
+
+  mounted () {
+    if (!this.sheet) this.openSettingModal()
+  },
+
   methods: {
+    openSettingModal () {
+      this.$refs.settingModal.handleOpen(Boolean(this.sheet))
+    },
+
     updateSetting () {
       this.$confirm(
         `<div class="Prompt_info">

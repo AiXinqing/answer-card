@@ -1,9 +1,7 @@
 <template>
   <div class="page-content">
     <Head />
-    <Layout
-      :sheet="sheet"
-    />
+    <Layout :sheet="sheet" />
     <div class="main-content">
       <page-container
         :sheet="sheet"
