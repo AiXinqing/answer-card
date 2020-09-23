@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Dialog, Select, Button, Checkbox, Row, Col } from 'element-ui'
+import { Dialog, Select, Button, Checkbox, Row, Col, Input } from 'element-ui'
 
 import App from './App.vue'
 import router from './router'
@@ -11,6 +11,7 @@ Vue.use(Button)
 Vue.use(Checkbox)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Input)
 Vue.config.productionTip = false
 
 new Vue({
