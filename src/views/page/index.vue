@@ -7,10 +7,19 @@
 </template>
 
 <script>
+import AnswerSheet from '@/models/answer-sheet'
 import AnswerSheetTitle from './answerSheetTitle'
+
 export default {
   components: {
     AnswerSheetTitle
+  },
+
+  props: {
+    sheet: {
+      type: AnswerSheet,
+      default: null
+    }
   }
 }
 </script>

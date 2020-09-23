@@ -18,53 +18,44 @@
         </div>
       </div>
     </div>
-    <setting-modal ref="settingModal"/>
-
-    <hj-dialog title="提示" :visible.sync="dialogVisible" :width="'400px'">
-      <div class="Prompt_info">
-        <i class="el-icon-question"></i>修改后将会清空所有手动修改的内容，确定修改吗？
-      </div>
-      <div class="dialog-footer">
-        <hj-button type="cancel" class="cancel" @click="closePrompt">取 消</hj-button>
-        <hj-button type="confirm" class="confirm" @click="PromptFunc">确 定</hj-button>
-      </div>
-    </hj-dialog>
+    <setting-modal ref="settingModal" />
   </div>
 </template>
 
 <script>
-import hjDialog from '@/components/elementUi/dialog'
-import hjButton from '@/components/elementUi/button'
-
+import AnswerSheet from '@/models/answer-sheet'
 // dialog
 import settingModal from '@/components/setting-modal'
+
 export default {
   components: {
-    hjDialog,
-    hjButton,
     settingModal
   },
-  data () {
-    return {
-      dialogVisible: false
+
+  props: {
+    sheet: {
+      type: AnswerSheet,
+      default: null
     }
   },
   mounted () {
     this.$refs.settingModal.handleOpen()
   },
   methods: {
-    closePrompt () {
-      this.dialogVisible = false
-    },
-    openPrompt () {
-      this.dialogVisible = true
-    },
     updateSetting () {
-      this.dialogVisible = true
-    },
-    PromptFunc () {
-      this.closePrompt()
-      this.$refs.settingModal.handleOpen(true)
+      this.$confirm(
+        `<div class="Prompt_info">
+          <i class="el-icon-question"></i>修改后将会清空所有手动修改的内容，确定修改吗？
+        </div>`,
+        '提示',
+        {
+          dangerouslyUseHTMLString: true
+        }
+      ).then(() => {
+        console.log('1')
+      }).catch(() => {
+        console.log('0')
+      })
     }
   }
 }

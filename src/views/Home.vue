@@ -1,10 +1,16 @@
 <template>
   <div class="page-content">
     <Head />
-    <Layout />
+    <Layout
+      :sheet="sheet"
+    />
     <div class="main-content">
-      <page-container/>
-      <basic-settings/>
+      <page-container
+        :sheet="sheet"
+      />
+      <basic-settings
+        :sheet="sheet"
+      />
     </div>
   </div>
 </template>
@@ -26,6 +32,7 @@ export default {
   },
   data () {
     return {
+      sheet: null
     }
   },
   computed: {

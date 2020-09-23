@@ -21,8 +21,8 @@
 </template>
 
 <script>
-
 import { Row, Col } from 'element-ui'
+
 export default {
   components: {
     elRow: Row,
