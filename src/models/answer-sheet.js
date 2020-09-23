@@ -2,14 +2,12 @@ import Student from './student'
 
 export const SHEET_SIZE = {
   A3: 'A3',
-  A4: 'A4',
-  A5: 'A5'
+  A4: 'A4'
 }
 
 export const SHEET_COLUMN = {
   [SHEET_SIZE.A3]: [2, 3],
-  [SHEET_SIZE.A4]: [1, 2, 3],
-  [SHEET_SIZE.A5]: [4]
+  [SHEET_SIZE.A4]: [1, 2, 3]
 }
 
 export default class AnswerSheet {
@@ -40,7 +38,10 @@ export default class AnswerSheet {
     return SHEET_COLUMN[this.settings.size]
   }
 
-  updateSettings ({ size, column }) {
+  updateSettings ({
+    size,
+    column
+  }) {
     if (this.constructor.AllowedSheetSize.includes(size)) {
       if (this.settings.size !== size) {
         this.settings.size = size
