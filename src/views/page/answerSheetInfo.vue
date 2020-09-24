@@ -90,14 +90,10 @@ import {
 } from '@/models/precautions'
 
 import AnswerSheet from '@/models/answer-sheet'
-import { Row, Col, Input } from 'element-ui'
 import studentInfo from './subassembly/studentInfo'
 
 export default {
   components: {
-    elInput: Input,
-    elRow: Row,
-    elCol: Col,
     studentInfo
   },
   props: {
