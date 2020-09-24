@@ -61,3 +61,8 @@ export const PRECAUTIONS_SVG_INFO = [
     }
   ]
 ]
+
+export const PRECAUTIONS_TABLE = {
+  column: 8,
+  ColumnHeight: 9
+}
