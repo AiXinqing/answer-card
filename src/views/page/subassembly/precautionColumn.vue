@@ -2,7 +2,14 @@
   <div class="precautions-column">
     <div class="column-title">注 意 事 项</div>
     <div class="precautions_content">
-      注意事项列表
+      <div
+        v-for="(precaution, index) in precautions"
+        :key="index"
+        class="precaution"
+      >
+        <span>{{ index + 1 }}. </span>
+        <span>{{ precaution }}</span>
+      </div>
     </div>
     <div class="tugaifangshi">
       <div class="tugaifangshi-item">
@@ -26,6 +33,12 @@ export default {
       type: AnswerSheet,
       required: true
     }
+  },
+
+  computed: {
+    precautions () {
+      return AnswerSheet.Precautions
+    }
   }
 }
 </script>
@@ -40,9 +53,16 @@ export default {
   align-items: stretch;
 
   .precautions_content {
+    padding-top: 7px;
     flex-grow: 1;
     max-height: 187px;
-    overflow: hidden;;
+    overflow: hidden;
+  }
+
+  .precaution {
+    margin-left: 10px;
+    padding: 7px 0;
+    font-size: 14px;
   }
 
   .tugaifangshi {
@@ -54,6 +74,7 @@ export default {
     .tugaifangshi-item {
       margin-left: 10px;
       min-width: 150px;
+      font-size: 18px;
       display: flex;
       flex-direction: row;
       align-items: center;

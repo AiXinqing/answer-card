@@ -43,6 +43,16 @@ export default class AnswerSheet {
     return Object.values(SHEET_SIZE)
   }
 
+  static get Precautions () {
+    return [
+      '答题前请将姓名、班级、考场、座号和准考证号填写清楚。',
+      '客观题答题,必须使用2B铅笔填涂,修改时用橡皮擦干净。',
+      '主观题必须使用黑色签字笔书写。',
+      '必须在题号对应的答题区域内作答,超出答题区域书写无效。',
+      '保持答卷清洁完整。'
+    ]
+  }
+
   constructor (attrs = {}) {
     const settings = attrs.settings || {}
     this.title = attrs.title || ''
