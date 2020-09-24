@@ -18,66 +18,31 @@
       >
         <div class="precautions_title">注 意 事 项</div>
         <div :class="['precautions_content', { active: rectWidth == 480 }]">
-          <div>1. 答题前请将姓名、班级、考场、座号和准考证号填写清楚。</div>
-          <div>2. 客观题答题,必须使用2B铅笔填涂,修改时用橡皮擦干净。</div>
-          <div>3. 主观题必须使用黑色签字笔书写。</div>
-          <div>4. 必须在题号对应的答题区域内作答,超出答题区域书写无效。</div>
-          <div>5. 保持答卷清洁完整。</div>
+          <div
+            v-for="(lineUp,index) in precautionsLineUp"
+            :key="index"
+          >{{`${index+1}. ${lineUp}`}}</div>
         </div>
         <div v-if="!layoutColumn" class="precautions_mark">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="100%"
-            height="100%"
-            version="1.1"
-          >
-            <text x="10" y="30" style="font-size: 18px;">正确填涂</text>
-            <rect
-              x="110"
-              y="19"
-              width="17"
-              height="10"
-              stroke="#000000"
-              fill="#000000"
-              style="fill-opacity: 1"
-            />
-            <text x="175" y="30" style="font-size: 18px;">缺考标记</text>
-            <rect
-              x="278"
-              y="19"
-              width="17"
-              height="10"
-              stroke="#000000"
-              style="fill-opacity: 0"
-            />
-          </svg>
-        </div>
-        <div v-else class="precautions_mark">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="100%"
-            height="100%"
-            version="1.1"
-          >
-            <text x="10" y="30" style="font-size: 16px;">正确填涂</text>
-            <rect
-              x="80"
-              y="19"
-              width="17"
-              height="10"
-              stroke="#000000"
-              fill="#000000"
-              style="fill-opacity: 1"
-            />
-            <text x="120" y="30" style="font-size: 16px;">缺考标记</text>
-            <rect
-              x="190"
-              y="19"
-              width="17"
-              height="10"
-              stroke="#000000"
-              style="fill-opacity: 0"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" >
+            <template
+              v-for="(svgInfo,a) in svgData"
+            >
+              <text :key="'text'+a"
+                :x="svgInfo.parameter.text.x" y="30"
+                :style="{fontSize: svgInfo.parameter.text.fontSize}"
+              >{{svgInfo.name}}</text>
+              <rect
+                :key="'rect'+a"
+                :x="svgInfo.parameter.rect.x"
+                y="19"
+                width="17"
+                height="10"
+                stroke="#000000"
+                :fill="a === 0 ? '#000000' : 'none'"
+                :style="{fillOpacity:a === 0 ? 1 : 0}"
+              />
+            </template>
           </svg>
         </div>
       </el-col>
@@ -96,20 +61,20 @@
         </div>
         <table class="table_box" cellspacing="0" cellpadding="0">
           <tbody>
-            <!-- <tr>
-              <th v-for="(item, i) in titleRows" :key="i" />
+            <tr>
+              <th v-for="(column, i) in tables.column" :key="i" />
             </tr>
             <tr>
-              <td v-for="(item, i) in titleRows" :key="i">
+              <td v-for="(column, i) in tables.column" :key="i">
                 <div
-                  v-for="row in trDiv"
-                  :key="row"
+                  v-for="ColumnHeight in tables.ColumnHeight"
+                  :key="ColumnHeight"
                   :style="{ minWidth: divWidth + 'px' }"
                 >
-                  [<span>{{ row }} </span>]
+                  [<span>{{ ColumnHeight }} </span>]
                 </div>
               </td>
-            </tr> -->
+            </tr>
           </tbody>
         </table>
       </el-col>
@@ -118,6 +83,12 @@
 </template>
 
 <script>
+import {
+  PRECAUTIONS_LINE_UP,
+  PRECAUTIONS_SVG_INFO,
+  PRECAUTIONS_TABLE
+} from '@/models/precautions'
+
 import AnswerSheet from '@/models/answer-sheet'
 import { Row, Col, Input } from 'element-ui'
 import studentInfo from './subassembly/studentInfo'
@@ -148,16 +119,35 @@ export default {
     layoutColumn () {
       return this.titleWidthLeft !== 521 ? 1 : 0
     },
+
     rectWidth () {
       return this.column === 3 && this.size === 'A3'
         ? 480
         : 745
+    },
+
+    precautionsLineUp () {
+      return PRECAUTIONS_LINE_UP
+    },
+
+    svgData () {
+      return PRECAUTIONS_SVG_INFO[0]
+    },
+
+    divWidth () {
+      return this.titleWidthRight === 224
+        ? 224 / this.titleRows - 1
+        : this.Rows - 1
+    },
+    tables () {
+      return PRECAUTIONS_TABLE
     }
   },
   methods: {
     editAdmissionNumber () {
       console.log('打开编辑准考证号长度的模态框，关闭的时候调用 this.sheet.setSheetNumberLength(new_length)')
     },
+
     hanldeStudent () {
 
     }
@@ -167,48 +157,9 @@ export default {
 
 <style lang="less" scoped>
   @import '~@/assets/css/publicColor.less';
-  .title-item {
-    height: 40px;
-    line-height: 50px;
-    min-width: 148px;
-    position: relative;
-    top: 8px;
-    span {
-      display: inline-block;
-      font-size: 18px;
-    }
-    > span:last-child {
-      width: 87px;
-      position: relative;
-      margin-left: 10px;
-      margin-right: 15px;
-      top: 3px;
-      border-bottom: 2px solid @font-888;
-    }
-    span.titke-edit {
-      position: absolute;
-      top: -26px;
-      right: 0;
-      font-size: 12px !important;
-      height: 20px;
-      line-height: 20px;
-      padding: 0 6px;
-      border-radius: 3px;
-      color: @white;
-      cursor: pointer;
-      background-color: @main;
-    }
-  }
 
   .precautions_box {
     margin-top: 15px;
-    .precautions_title {
-      height: 38px;
-      line-height: 38px;
-      border-bottom: 2px solid @font-888;
-      text-align: center;
-      width: 100%;
-    }
     .precautions_left {
       border: 1px solid @font-888;
       height: 258px;
@@ -271,15 +222,6 @@ export default {
     font-size: 16px;
     height: 50px;
     line-height: 50px;
-  }
-  .el-textarea__inner {
-    border-style: dashed;
-    padding: 0 0;
-    text-align: center;
-    line-height: 31px;
-    font-size: 23px;
-    border-color: @font-888;
-    color: @font-666;
   }
   table tr td div:last-child {
     margin-bottom: 6px;
