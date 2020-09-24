@@ -9,6 +9,7 @@
       <page-container
         v-if="sheet"
         :sheet="sheet"
+        @create-student-info="createStudentInfo"
       />
       <sheet-question-editor
         :sheet="sheet"
@@ -40,6 +41,9 @@ export default {
   methods: {
     createSheet (attrs) {
       this.sheet = new AnswerSheet(attrs)
+    },
+    createStudentInfo (attrs) {
+      this.sheet = new AnswerSheet({ ...this.sheet, ...attrs })
     }
   }
 }
