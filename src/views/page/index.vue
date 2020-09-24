@@ -1,24 +1,43 @@
 <template>
   <div class="page-container">
     <div class="page_number_content">
-      <answer-sheet-info :sheet="sheet" />
+      <answer-sheet-info
+        :sheet="sheet"
+        @open-student-info-dialog="openStudentInfoDialog"
+      />
     </div>
+    <student-info-editor-modal
+      ref="studentInfoEditorModal"
+      @update-student-info="updateStudentInfo"
+    />
   </div>
 </template>
 
 <script>
 import AnswerSheet from '@/models/answer-sheet'
 import AnswerSheetInfo from './answerSheetInfo'
+import studentInfoEditorModal from '@/components/student-info-editor-modal'
 
 export default {
   components: {
-    AnswerSheetInfo
+    AnswerSheetInfo,
+    studentInfoEditorModal
   },
 
   props: {
     sheet: {
       type: AnswerSheet,
       required: true
+    }
+  },
+  methods: {
+    openStudentInfoDialog () {
+      this.$refs.studentInfoEditorModal.open(this.sheet)
+    },
+    updateStudentInfo (CheckedArr) {
+      this.$emit('create-student-info', {
+        student: CheckedArr
+      })
     }
   }
 }
