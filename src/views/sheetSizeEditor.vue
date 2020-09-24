@@ -112,6 +112,7 @@ export default {
   }
   .total-score{
     font-size: 14px;
+    min-width: 110px;
     .score_style{
       font-size: 18px;
       font-weight: 500;
@@ -122,6 +123,7 @@ export default {
   .layout-setting{
     border: 1px solid @main;
     min-width: 93px;
+    max-width: 100px;
     background: @white;
     margin-top: 10px;
     font-size: 14px;
