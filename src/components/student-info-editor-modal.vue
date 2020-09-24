@@ -8,13 +8,11 @@
     :show-close="false"
   >
     <div class="item-style">
-      <el-checkbox v-model="checked">分区答题卡</el-checkbox>
-      <!-- <el-checkbox
-        v-for="(item, i) in studentTitle"
+      <el-checkbox
+        v-for="(item, i) in studentInfo"
         :key="i"
         v-model="item.checked"
-        @change="changeCheckFunc"
-      >{{ item.name }}</el-checkbox> -->
+      >{{ item.value }}</el-checkbox>
     </div>
     <div class="dialog-footer ">
       <hj-button type="cancel"  class="cancel"  @click="close">取 消</hj-button>
@@ -26,6 +24,9 @@
 <script>
 import hjDialog from '@/components/elementUi/dialog'
 import hjButton from '@/components/elementUi/button'
+
+import AnswerSheet from '@/models/answer-sheet'
+import { STUDENT_INFO_LABEL } from '@/models/student' // Student,
 export default {
   components: {
     hjDialog,
@@ -33,15 +34,43 @@ export default {
   },
   data () {
     return {
-      dialogVisible: false
+      dialogVisible: false,
+      sheet: new AnswerSheet(),
+      studentInfo: []
+    }
+  },
+  computed: {
+    studentInfos () {
+      const info = this.sheet.student.toJSON()
+      return Object.keys(STUDENT_INFO_LABEL).map(key => ({
+        value: STUDENT_INFO_LABEL[key],
+        label: key,
+        checked: info.includes(key)
+      }))
+    }
+  },
+  watch: {
+    studentInfos: {
+      immediate: true,
+      handler () {
+        this.studentInfo = this.studentInfos
+      }
     }
   },
   methods: {
     close () {
       this.dialogVisible = false
     },
+    open (sheet) {
+      this.sheet = sheet
+      this.dialogVisible = true
+    },
     handleDetermine () {
-
+      const studentInfoChecked = this.studentInfo
+        .filter(key => key.checked)
+        .map(key => key.label)
+      this.$emit('update-student-info', studentInfoChecked)
+      this.close()
     }
   }
 }
