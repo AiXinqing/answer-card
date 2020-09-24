@@ -3,7 +3,7 @@
     <el-input
       type="textarea"
       :rows="2"
-      placeholder="请输入内容"
+      placeholder="请输入答题卡标题"
       v-model="sheet.title">
     </el-input>
     <student-info
@@ -155,9 +155,16 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
   @import '~@/assets/css/publicColor.less';
-
+  .el-textarea__inner {
+    padding: 0 0 !important;
+    border-style: dashed !important;
+    border-color: @font-888 !important;
+    text-align: center;
+    font-size: 22px;
+    color: @font-333 !important;
+  }
   .precautions_box {
     margin-top: 15px;
     .precautions_left {
