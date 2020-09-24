@@ -16,24 +16,20 @@
       </span>
       <span v-else />
     </el-col>
-    <student-info-editor-modal
-      ref="studentInfoEditorModal"
-    />
   </el-row>
 </template>
 
 <script>
 import Student, { STUDENT_INFO, STUDENT_INFO_LABEL } from '@/models/student'
-
-import studentInfoEditorModal from '@/components/student-info-editor-modal'
-
+import AnswerSheet from '@/models/answer-sheet'
 export default {
-  components: {
-    studentInfoEditorModal
-  },
   props: {
     student: {
       type: Student,
+      required: true
+    },
+    sheet: {
+      type: AnswerSheet,
       required: true
     }
   },
@@ -50,7 +46,7 @@ export default {
   },
   methods: {
     editStudentInfoColumn () {
-      console.log('打开编辑学生信息的模态框, 关闭的时候调用this.student.updateInfo(new_info_array)')
+      this.$emit('open-student-info-dialog')
     }
   }
 }
