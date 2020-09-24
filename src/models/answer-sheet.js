@@ -10,6 +10,13 @@ export const SHEET_SIZE_LABEL = {
   [SHEET_SIZE.A3]: 'A3/B4/8K纸'
 }
 
+export const PAGE_SIZE = 1165
+
+const PAGE_SIZE_MAP = {
+  [SHEET_SIZE.A3]: Math.SQRT2,
+  [SHEET_SIZE.A4]: Math.SQRT1_2
+}
+
 export const SHEET_COLUMN = {
   [SHEET_SIZE.A3]: [2, 3],
   [SHEET_SIZE.A4]: [1]
@@ -67,6 +74,11 @@ export default class AnswerSheet {
     })
 
     this.setSheetNumberLength(attrs.sheetNumberLength || 12)
+  }
+
+  get sheetSize () {
+    const { size, column } = this.settings
+    return PAGE_SIZE_MAP[size] * PAGE_SIZE / column
   }
 
   // 准考证号的范围

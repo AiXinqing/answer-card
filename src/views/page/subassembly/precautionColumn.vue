@@ -55,7 +55,7 @@ export default {
   .precautions_content {
     padding-top: 7px;
     flex-grow: 1;
-    max-height: 187px;
+    max-height: 180px;
     overflow: hidden;
   }
 
@@ -73,7 +73,7 @@ export default {
 
     .tugaifangshi-item {
       margin-left: 10px;
-      min-width: 150px;
+      min-width: 120px;
       font-size: 18px;
       display: flex;
       flex-direction: row;
@@ -83,7 +83,7 @@ export default {
     .rect {
       width: 15px;
       height: 8px;
-      margin-left: 30px;
+      margin-left: 20px;
       border: 1px solid @font-333;
 
       &.rect-solid {

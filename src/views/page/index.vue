@@ -1,6 +1,9 @@
 <template>
   <div class="page-container">
-    <div class="page_number_content">
+    <div
+      :style="pageSize"
+      class="page_number_content"
+    >
       <answer-sheet-info
         :sheet="sheet"
         @open-student-info-dialog="openStudentInfoDialog"
@@ -14,7 +17,7 @@
 </template>
 
 <script>
-import AnswerSheet from '@/models/answer-sheet'
+import AnswerSheet, { PAGE_SIZE } from '@/models/answer-sheet'
 import AnswerSheetInfo from './answerSheetInfo'
 import studentInfoEditorModal from '@/components/student-info-editor-modal'
 
@@ -30,6 +33,17 @@ export default {
       required: true
     }
   },
+
+  computed: {
+    pageSize () {
+      console.log(PAGE_SIZE)
+      return {
+        width: `${this.sheet.sheetSize}px`,
+        height: `${PAGE_SIZE}px`
+      }
+    }
+  },
+
   methods: {
     openStudentInfoDialog () {
       this.$refs.studentInfoEditorModal.open()
@@ -47,9 +61,8 @@ export default {
     height: calc(100% - 20px);
     overflow: auto;
     float: left;
+
     .page_number_content{
-      width: 783px;
-      height: 1165px;
       border: 1px solid @font-333;
       overflow: hidden;
       background: @white;
