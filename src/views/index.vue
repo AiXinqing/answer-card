@@ -1,7 +1,7 @@
 <template>
   <div class="page-content">
     <Head />
-    <Layout
+    <sheet-size-editor
       :sheet="sheet"
       @create-sheet="createSheet"
     />
@@ -10,7 +10,7 @@
         v-if="sheet"
         :sheet="sheet"
       />
-      <basic-settings
+      <sheet-question-editor
         :sheet="sheet"
       />
     </div>
@@ -20,16 +20,16 @@
 <script>
 import AnswerSheet from '@/models/answer-sheet'
 import Head from './Head'
-import Layout from './Layout'
-import BasicSettings from './BasicSettings'
+import sheetSizeEditor from './sheetSizeEditor'
+import sheetQuestionEditor from './sheetQuestionEditor'
 import PageContainer from './page/index'
 
 export default {
   name: 'Home',
   components: {
     Head,
-    Layout,
-    BasicSettings,
+    sheetSizeEditor,
+    sheetQuestionEditor,
     PageContainer
   },
   data () {
