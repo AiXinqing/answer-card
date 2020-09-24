@@ -9,6 +9,8 @@
     <student-info
       :student="sheet.student"
       @hanldeStudent="hanldeStudent"
+      @open-student-info-dialog="openStudentInfoDialog"
+      :sheet="sheet"
     />
     <el-row class="precautions_box">
       <el-col
@@ -146,6 +148,10 @@ export default {
 
     hanldeStudent () {
 
+    },
+
+    openStudentInfoDialog () {
+      this.$emit('open-student-info-dialog')
     }
   }
 }
