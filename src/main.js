@@ -4,6 +4,7 @@ import {
   Select,
   Button,
   Checkbox,
+  CheckboxGroup,
   Row,
   Col,
   Input,
@@ -18,6 +19,7 @@ Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Button)
 Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Input)

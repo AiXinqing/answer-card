@@ -20,28 +20,21 @@
 </template>
 
 <script>
-import Student, { STUDENT_INFO, STUDENT_INFO_LABEL } from '@/models/student'
-import AnswerSheet from '@/models/answer-sheet'
+import Student, { STUDENT_INFO_LABEL } from '@/models/student'
+
 export default {
   props: {
     student: {
       type: Student,
       required: true
-    },
-    sheet: {
-      type: AnswerSheet,
-      required: true
     }
   },
   computed: {
-    infoList () {
-      return Object.values(STUDENT_INFO).map(key => ({
+    studentInfoArr () {
+      return this.student.toJSON().map(key => ({
         value: key,
         label: STUDENT_INFO_LABEL[key]
       }))
-    },
-    studentInfoArr () {
-      return this.infoList.filter(info => this.student[info.value])
     }
   },
   methods: {

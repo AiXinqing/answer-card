@@ -8,7 +8,7 @@
     </div>
     <student-info-editor-modal
       ref="studentInfoEditorModal"
-      @update-student-info="updateStudentInfo"
+      :student="sheet.student"
     />
   </div>
 </template>
@@ -32,12 +32,7 @@ export default {
   },
   methods: {
     openStudentInfoDialog () {
-      this.$refs.studentInfoEditorModal.open(this.sheet)
-    },
-    updateStudentInfo (CheckedArr) {
-      this.$emit('create-student-info', {
-        student: CheckedArr
-      })
+      this.$refs.studentInfoEditorModal.open()
     }
   }
 }
