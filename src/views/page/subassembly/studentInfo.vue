@@ -16,17 +16,20 @@
       </span>
       <span v-else />
     </el-col>
+    <student-info-editor-modal
+      ref="studentInfoEditorModal"
+    />
   </el-row>
 </template>
 
 <script>
 import Student, { STUDENT_INFO, STUDENT_INFO_LABEL } from '@/models/student'
-import { Row, Col } from 'element-ui'
+
+import studentInfoEditorModal from '@/components/student-info-editor-modal'
 
 export default {
   components: {
-    elRow: Row,
-    elCol: Col
+    studentInfoEditorModal
   },
   props: {
     student: {
