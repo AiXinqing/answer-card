@@ -14,7 +14,6 @@
         <div class="layout-bottom">
           <div>{{ sheetSizeLabel }}</div>
           <div>{{ sheetColumnLabel }}</div>
-          <!-- <div>线上阅卷</div> -->
         </div>
       </div>
     </div>
@@ -142,6 +141,10 @@ export default {
       line-height: 22px;
     }
   }
+</style>
+
+<style lang="less">
+  @import '~@/assets/css/publicColor.less';
   .Prompt_info {
     height: 50px;
     font-size: 14px;
@@ -152,6 +155,14 @@ export default {
       position: relative;
       top: 3px;
       margin-right: 5px;
+    }
+  }
+  .el-message-box__header{
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f8f8f8;
+    .el-message-box__headerbtn{
+      top:10px
     }
   }
 </style>
