@@ -85,6 +85,7 @@ export default class AnswerSheet {
         this.settings.column = column
       }
     }
+    this.setSheetNumberLength(this.sheetNumberLength)
   }
 
   // 设置准考证号的长度
