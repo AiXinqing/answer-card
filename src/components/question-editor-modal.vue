@@ -2,7 +2,7 @@
   <hj-dialog
     :title="title"
     :visible.sync="dialogVisible"
-    :width="'600px'"
+    :width="'620px'"
     :before-close="cancel"
   >
     <div class="question-edit-wrap">
