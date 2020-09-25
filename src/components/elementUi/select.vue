@@ -1,6 +1,5 @@
 /* eslint-disable vue/no-unused-components */
 <template>
-  <div class="hj-select" v-bind:class="{'has-error':error}">
     <el-select
       v-model="selectVal"
       v-bind="$attrs"
@@ -9,12 +8,9 @@
     >
       <el-option v-for="item in items" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
-  </div>
 </template>
 <script>
-import { Select, Option } from 'element-ui'
 export default {
-  name: 'hjSelect',
   props: {
     items: {
       default () {
@@ -30,10 +26,6 @@ export default {
       type: Number,
       default: 1
     }
-  },
-  components: {
-    elSelect: Select,
-    elOption: Option
   },
   data () {
     return {

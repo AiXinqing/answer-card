@@ -5,18 +5,8 @@
 </template>
 
 <script>
-import { Button } from 'element-ui'
 export default {
-  name: 'hjButton',
-  props: {},
-  data () {
-    return {}
-  },
-  methods: {},
-  mounted () { },
-  components: {
-    elButton: Button
-  }
+
 }
 </script>
 

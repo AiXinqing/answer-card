@@ -1,23 +1,16 @@
 <template>
-  <div class="hj-dialog">
-    <el-dialog
-      v-bind="$attrs"
-      v-on="$listeners"
-      :title="title"
-      :close-on-click-modal="closeOnClickModal"
-    >
-      <slot></slot>
-    </el-dialog>
-  </div>
+  <el-dialog
+    v-bind="$attrs"
+    v-on="$listeners"
+    :title="title"
+    :close-on-click-modal="closeOnClickModal"
+  >
+    <slot></slot>
+  </el-dialog>
 </template>
 
 <script>
-import { Dialog } from 'element-ui'
 export default {
-  name: 'hjDialog',
-  components: {
-    elDialog: Dialog
-  },
   props: {
     title: { type: String },
     closeOnClickModal: {
@@ -28,12 +21,7 @@ export default {
       type: Boolean,
       default: true
     }
-  },
-  data () {
-    return {}
-  },
-  methods: {},
-  mounted () {}
+  }
 }
 </script>
 
