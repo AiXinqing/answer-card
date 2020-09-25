@@ -73,7 +73,7 @@ export default class AnswerSheet {
       column: settings.column
     })
 
-    this.setSheetNumberLength(attrs.sheetNumberLength || 12)
+    this.setSheetNumberLength(attrs.sheetNumberLength || 8)
   }
 
   get sheetSize () {
