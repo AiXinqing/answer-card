@@ -9,7 +9,9 @@ import {
   Row,
   Col,
   Input,
-  MessageBox
+  MessageBox,
+  Tabs,
+  TabPane
 } from 'element-ui'
 
 import App from './App.vue'
@@ -25,6 +27,8 @@ Vue.use(CheckboxGroup)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Input)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 
