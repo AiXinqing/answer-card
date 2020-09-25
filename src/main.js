@@ -2,6 +2,7 @@ import Vue from 'vue'
 import {
   Dialog,
   Select,
+  Option,
   Button,
   Checkbox,
   CheckboxGroup,
@@ -17,6 +18,7 @@ import store from './store'
 
 Vue.use(Dialog)
 Vue.use(Select)
+Vue.use(Option)
 Vue.use(Button)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
