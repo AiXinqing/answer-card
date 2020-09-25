@@ -56,7 +56,7 @@ export default {
   methods: {
     editAdmissionNumber () {
       const { sheetNumberRange, sheetNumberLength } = this.sheet
-      this.$prompt('考号位数:', '编辑考号数', {
+      this.$prompt('考号位数:', '编辑准考证号', {
         customClass: 'edit_admissonNum',
         dangerouslyUseHTMLString: true,
         confirmButtonText: '确 定',
@@ -72,7 +72,7 @@ export default {
       }).then(({ value }) => {
         this.sheet.setSheetNumberLength(value)
       }).catch(() => {
-        console.log('取 消')
+
       })
     }
   }
