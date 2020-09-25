@@ -5,13 +5,15 @@
       <div
         v-for="(precaution, index) in precautions"
         :key="index"
-        class="precaution"
+        :class="['precaution',{'narrow':sheetColumn === 3}]"
       >
         <span>{{ index + 1 }}. </span>
         <span>{{ precaution }}</span>
       </div>
     </div>
-    <div class="tugaifangshi">
+    <div
+      :class="['tugaifangshi',{'narrow':sheetColumn === 3}]"
+    >
       <div class="tugaifangshi-item">
         <span>正确填涂</span>
         <div class="rect rect-solid" />
@@ -38,6 +40,9 @@ export default {
   computed: {
     precautions () {
       return AnswerSheet.Precautions
+    },
+    sheetColumn () {
+      return this.sheet.settings.column
     }
   }
 }
@@ -63,6 +68,9 @@ export default {
     margin-left: 10px;
     padding: 7px 0;
     font-size: 14px;
+    &.narrow{
+      padding: 2px 0;
+    }
   }
 
   .tugaifangshi {
@@ -78,6 +86,16 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
+    }
+    &.narrow{
+      .tugaifangshi-item{
+        font-size: 16px;
+        .rect{
+          width: 13px;
+          height: 6px;
+          margin-top: 3px;
+        }
+      }
     }
 
     .rect {
