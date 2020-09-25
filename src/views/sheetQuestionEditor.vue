@@ -20,14 +20,18 @@
       <hj-button type="primary">保存</hj-button>
       <hj-button type="primary">下载</hj-button>
     </div>
+    <question-editor-modal/>
   </div>
 </template>
 
 <script>
 import hjButton from '@/components/elementUi/button'
+
+import questionEditorModal from '@/components/question-editor-modal'
 export default {
   components: {
-    hjButton
+    hjButton,
+    questionEditorModal
   },
   data () {
     return {
