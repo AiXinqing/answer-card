@@ -24,6 +24,7 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Input)
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
 
 Vue.config.productionTip = false
 
