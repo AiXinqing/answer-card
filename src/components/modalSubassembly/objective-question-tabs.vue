@@ -6,17 +6,27 @@
         :key="index"
         :label="tabPane"
       >
-
+      <!-- 题组信息 -->
+      <objective-question-groups ref="questionGroups"/>
+      <!-- 分段小题 -->
+      <div class="add-question-group">+ 分段添加小题</div>
+      <!-- 小题详情 -->
+      <div class="question-groups-detail"></div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import objectiveQuestionGroups from './objective-question-groups'
 export default {
+  components: {
+    objectiveQuestionGroups
+  },
   data () {
     return {
       tabPaneData: ['单选框', '多选框', '判断']
+
     }
   }
 }
@@ -26,6 +36,21 @@ export default {
   @import '~@/assets/css/publicColor.less';
   .objective-tabs-warp{
     margin-top:20px;
+
+    //题型-题组
+    .add-question-group{
+      color: @main;
+      cursor: pointer;
+      width: 100px;
+    }
+
+    .question-groups-detail{
+      width: 100%;
+      height: 200px;
+      overflow: auto;
+      border: 1px solid @font-888;
+      margin-top: 15px;
+    }
   }
   .el-tabs--border-card{
     box-shadow: 0 0px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
