@@ -55,7 +55,25 @@ export default {
 
   methods: {
     editAdmissionNumber () {
-      console.log('打开编辑准考证号长度的模态框，关闭的时候调用 this.sheet.setSheetNumberLength(new_length)')
+      const { sheetNumberRange, sheetNumberLength } = this.sheet
+      this.$prompt('考号位数:', '编辑考号数', {
+        customClass: 'edit_admissonNum',
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: '确 定',
+        cancelButtonText: '取 消',
+        inputValue: sheetNumberLength,
+        inputValidator: (value) => {
+          if (value < sheetNumberRange[0] || value > sheetNumberRange[1]) {
+            return false
+          } else { return true }
+        },
+        inputType: 'number',
+        inputErrorMessage: `请输入${sheetNumberRange[0]}~${sheetNumberRange[1]}之间的整数`
+      }).then(({ value }) => {
+        this.sheet.setSheetNumberLength(value)
+      }).catch(() => {
+        console.log('取 消')
+      })
     }
   }
 }
@@ -102,6 +120,35 @@ export default {
 
     span {
       width: 9px;
+    }
+  }
+}
+.precautions_edit{
+  position: absolute;
+  right: 20px;
+  margin-top: 8px;
+}
+
+.edit_admissonNum{
+  .el-message-box__content{
+    display: flex;
+    justify-content:center;
+    margin-top: 15px
+  }
+
+  .el-message-box__container{
+    width: 75px;
+  }
+
+  .el-message-box__input {
+    width: calc(100% - 100px);
+    margin-left: 25px;
+    padding-top: 0;
+
+    input.el-input__inner {
+        height: 30px;
+        padding: 0 1px;
+        text-indent: 1em;
     }
   }
 }
