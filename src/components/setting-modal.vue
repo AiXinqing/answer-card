@@ -63,15 +63,12 @@
 
 import AnswerSheet, { SHEET_SIZE_LABEL } from '@/models/answer-sheet'
 
-import { Row, Col } from 'element-ui'
 import hjDialog from '@/components/elementUi/dialog'
 import hjButton from '@/components/elementUi/button'
 export default {
   components: {
     hjDialog,
-    hjButton,
-    elRow: Row,
-    elCol: Col
+    hjButton
   },
   data () {
     return {
