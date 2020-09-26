@@ -151,7 +151,8 @@ export default class AnswerSheet {
         acc[attr] = this[attr]
         return acc
       }, {})),
-      student: this.student.toJSON()
+      student: this.student.toJSON(),
+      questions: this.questions.map(question => question.toJSON())
     }
   }
 }
