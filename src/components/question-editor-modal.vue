@@ -13,25 +13,27 @@
           <hj-select
             :items="options"
             size="mini"
-            :value="1"
-            @change="hanldeSelect"
+            v-model="questionIndex"
           ></hj-select>
         </div>
-        <div class="layui-form-item long">
+        <div
+          class="layui-form-item long"
+          v-if="question"
+        >
           <div class="label">题目:</div>
-          <el-input v-model="input" placeholder="请输入内容" />
+          <el-input v-model="question.title" placeholder="请输入内容" />
         </div>
       </div>
-      <div class="layui-form">
+      <!-- <div class="layui-form">
         <div class="layui-form-item">
           <div class="label">每组题数:</div>
           <el-input v-model="input" placeholder="请输入内容" />
         </div>
-      </div>
+      </div> -->
       <!-- 客观题tabs -->
       <objective-question-tabs ref="objectiveTabs"/>
       <!-- 插入操作 -->
-      <div class="insert-wrap">
+      <!-- <div class="insert-wrap">
         <el-checkbox v-model="insert">插入添加题目</el-checkbox>
         <div class="insert-select">
           <span>插入到第</span>
@@ -44,7 +46,7 @@
           <span>大题后</span>
         </div>
         <el-checkbox v-model="postpone">大题号自动顺延</el-checkbox>
-      </div>
+      </div> -->
     </div>
     <div class="dialog-footer ">
       <hj-button type="cancel"  class="cancel"  @click="cancel">取 消</hj-button>
@@ -54,11 +56,13 @@
 </template>
 
 <script>
+import AnswerSheet from '@/models/answer-sheet'
+import { QUESTION_NUMBERS } from '@/models/question'
 import hjDialog from '@/components/elementUi/dialog'
 import hjSelect from '@/components/elementUi/select'
 import hjButton from '@/components/elementUi/button'
-
 import objectiveQuestionTabs from './modalSubassembly/objective-question-tabs'
+
 export default {
   components: {
     hjSelect,
@@ -66,14 +70,20 @@ export default {
     hjButton,
     objectiveQuestionTabs
   },
+  props: {
+    sheet: {
+      type: AnswerSheet,
+      required: true
+    }
+  },
   data () {
     return {
-      dialogVisible: true,
-      input: 1,
-      options: [{
-        value: 1,
-        label: '一'
-      }],
+      question: null,
+      dialogVisible: false,
+      options: QUESTION_NUMBERS.map((label, value) => ({
+        label,
+        value
+      })),
       insertOptions: [
         {
           value: 1,
@@ -86,7 +96,25 @@ export default {
   },
   computed: {
     title () {
-      return '新增客观题'
+      return this.isNewQuestion ? '新增客观题' : '编辑题目'
+    },
+
+    isNewQuestion () {
+      if (!this.question) return true
+      return !this.sheet.questions[this.question.serialNumber]
+    },
+
+    questionIndex: {
+      get () {
+        return this.question?.serialNumber || 0
+      },
+      set (number) {
+        if (this.sheet.questions[number]) {
+          console.warn(`大题号${number}已经存在`)
+        } else {
+          this.question.serialNumber = number
+        }
+      }
     }
   },
   methods: {
@@ -96,11 +124,12 @@ export default {
     close () {
       this.dialogVisible = false
     },
-    hanldeSelect () {
-
+    open (question) {
+      this.question = question
+      this.dialogVisible = true
     },
     handleDetermine () {
-
+      this.sheet.addQuestion(this.question)
     }
   }
 }

@@ -83,9 +83,17 @@ export default class AnswerSheet {
     return PAGE_SIZE_MAP[size] * PAGE_SIZE / column
   }
 
-  get avaliableSerialNumber () {
+  get avaliableSubquestionSerialNumber () {
     let count = 1
     while (!this.isSerialNumberVaild(count)) {
+      count += 1
+    }
+    return count
+  }
+
+  get avaliableQuestionSerialNumber () {
+    let count = 0
+    while (this.questions[count]) {
       count += 1
     }
     return count
@@ -100,10 +108,10 @@ export default class AnswerSheet {
     return SHEET_COLUMN[this.settings.size]
   }
 
-  isSerialNumberVaild (number) {
-    return !this.questions.some(question => {
-      return question.serialNumebr === number
-    })
+  isSubquestionSerialNumberVaild (number) {
+    return this.questions.filter(Boolean).every(
+      question => !question.serialNumberSet.has(number)
+    )
   }
 
   updateSettings ({
@@ -124,6 +132,10 @@ export default class AnswerSheet {
       }
     }
     this.setSheetNumberLength(this.sheetNumberLength)
+  }
+
+  addQuestion (question) {
+    this.questions[question.serialNumber] = question
   }
 
   // 设置准考证号的长度

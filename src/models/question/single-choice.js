@@ -47,4 +47,15 @@ export default class SingleChoiceQuestion extends Question {
   buildSubquestion (attrs) {
     return new Choice(attrs)
   }
+
+  toJSON () {
+    return {
+      type: this.constructor.name,
+      serialNumber: this.serialNumber,
+      title: this.title,
+      groupSize: this.groupSize,
+      groups: this.groups,
+      subquestions: this.subquestions.map(item => item.toJSON())
+    }
+  }
 }

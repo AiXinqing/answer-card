@@ -4,7 +4,8 @@ export default class Question {
   }
 
   constructor (attrs) {
-    this.serialNumber = attrs.serialNumber || 1
+    this.serialNumber = attrs.serialNumber || 0
+    this.title = attrs.title || Question.Title
     this.subquestions = []
   }
 
@@ -15,5 +16,18 @@ export default class Question {
       }, 0)
     }
     return this.score || 0
+  }
+
+  get serialNumberSet () {
+    return new Set(this.subquestions.map(question => question.serialNumber))
+  }
+
+  toJSON () {
+    return {
+      type: this.constructor.name,
+      title: this.title,
+      serialNumber: this.serialNumber,
+      subquestions: this.subquestions.map(question => question.toJSON())
+    }
   }
 }

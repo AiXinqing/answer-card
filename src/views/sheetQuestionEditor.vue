@@ -8,68 +8,56 @@
     </div>
     <div class="basis_checkbox basic_btn" style="padding-left:5px">
       <hj-button @click="questionDialog">客观题</hj-button>
-      <hj-button @click="fillInTheBlank">填空题</hj-button>
-      <hj-button @click="answerQuestion">解答题</hj-button>
-      <hj-button @click="optionalQuestion">选做题</hj-button>
-      <hj-button @click="compositionEnglish">作文(英)</hj-button>
-      <hj-button @click="compositionLanguage">作文(语)</hj-button>
-      <hj-button @click="NonRresponseArea">非作答</hj-button>
     </div>
     <div class="basis_checkbox basic_btn save-btn">
-      <hj-button type="primary" @click="previewLinkFunc">预览</hj-button>
+      <hj-button type="primary">预览</hj-button>
       <hj-button type="primary">保存</hj-button>
       <hj-button type="primary">下载</hj-button>
     </div>
-    <question-editor-modal/>
+    <question-editor-modal
+      v-if="sheet"
+      ref="hehe"
+      :sheet="sheet"
+    />
   </div>
 </template>
 
 <script>
+import AnswerSheet from '@/models/answer-sheet'
+import ObjectiveQuestion from '@/models/question/objective'
 import hjButton from '@/components/elementUi/button'
-
 import questionEditorModal from '@/components/question-editor-modal'
+
 export default {
   components: {
     hjButton,
     questionEditorModal
+  },
+  props: {
+    sheet: {
+      type: AnswerSheet,
+      defualt: new AnswerSheet()
+    }
   },
   data () {
     return {
       checked: false
     }
   },
+
   methods: {
     questionDialog () {
-      this.$refs.publicDialog.opened('questionDialogs')
-    },
-    fillInTheBlank () {
-      this.$refs.publicDialog.opened('fillInTheBlanks')
-    },
-    answerQuestion () {
-      this.$refs.publicDialog.opened('answerQuestion')
-    },
-    optionalQuestion () {
-      this.$refs.publicDialog.opened('optionalQuestion')
-    },
-    compositionEnglish () {
-      this.$refs.publicDialog.opened('compositionEnglish')
-    },
-    compositionLanguage () {
-      this.$refs.publicDialog.opened('compositionLanguage')
-    },
-    NonRresponseArea () {
-      this.$refs.publicDialog.opened('NonRresponseArea')
-    },
-    previewLinkFunc () {
-      // 跳转至预览页面
-      this.$router.push({
-        name: 'preview',
-        params: {
-          layout: this.pageLayout,
-          size: this.page_size,
-          content: this.pageData
+      this.$refs.hehe.open(new ObjectiveQuestion({
+        serialNumber: this.sheet.avaliableQuestionSerialNumber,
+        singleChoice: {
+          groups: [],
+          subquestions: []
+        },
+        multipleChoice: {
+          groups: [],
+          subquestions: []
         }
-      })
+      }))
     }
   }
 }
