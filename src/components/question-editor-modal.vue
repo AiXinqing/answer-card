@@ -130,6 +130,7 @@ export default {
     },
     handleDetermine () {
       this.sheet.addQuestion(this.question)
+      this.close()
     }
   }
 }

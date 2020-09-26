@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import Student from './student'
 
 export const SHEET_SIZE = {
@@ -135,7 +136,7 @@ export default class AnswerSheet {
   }
 
   addQuestion (question) {
-    this.questions[question.serialNumber] = question
+    Vue.set(this.questions, question.serialNumber, question)
   }
 
   // 设置准考证号的长度
