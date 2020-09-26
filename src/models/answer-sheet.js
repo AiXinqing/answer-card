@@ -74,11 +74,21 @@ export default class AnswerSheet {
     })
 
     this.setSheetNumberLength(attrs.sheetNumberLength || 8)
+
+    this.questions = []
   }
 
   get sheetSize () {
     const { size, column } = this.settings
     return PAGE_SIZE_MAP[size] * PAGE_SIZE / column
+  }
+
+  get avaliableSerialNumber () {
+    let count = 1
+    while (!this.isSerialNumberVaild(count)) {
+      count += 1
+    }
+    return count
   }
 
   // 准考证号的范围
@@ -88,6 +98,12 @@ export default class AnswerSheet {
 
   get allowedColumns () {
     return SHEET_COLUMN[this.settings.size]
+  }
+
+  isSerialNumberVaild (number) {
+    return !this.questions.some(question => {
+      return question.serialNumebr === number
+    })
   }
 
   updateSettings ({
@@ -118,7 +134,10 @@ export default class AnswerSheet {
 
   toJSON () {
     return {
-      ...this,
+      ...(['title', 'settings', 'sheetNumberLength'].reduce((acc, attr) => {
+        acc[attr] = this[attr]
+        return acc
+      }, {})),
       student: this.student.toJSON()
     }
   }

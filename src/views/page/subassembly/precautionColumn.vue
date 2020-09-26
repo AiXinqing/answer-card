@@ -68,6 +68,7 @@ export default {
     margin-left: 10px;
     padding: 7px 0;
     font-size: 14px;
+
     &.narrow{
       padding: 2px 0;
     }
