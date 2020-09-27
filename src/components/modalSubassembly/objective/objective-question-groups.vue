@@ -58,33 +58,5 @@ export default {
 </script>
 
 <style lang="less">
-  @import '~@/assets/css/publicColor.less';
-  .question-group-wrap{
 
-    .question-group-item{
-      display: flex;
-      align-items:center;
-      margin-bottom: 20px;
-      position: relative;
-
-      >.el-input--mini{
-        width:46px;
-        margin:0 5px;
-        font-size:14px;
-      }
-
-      .el-input__inner{
-        padding:0 0;
-        text-align: center;
-      }
-
-      .el-icon-delete{
-        position: absolute;
-        right: 0;
-        font-size: 16px;
-        margin-top: 1px;
-      }
-    }
-
-  }
 </style>

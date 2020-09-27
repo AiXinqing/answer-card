@@ -58,15 +58,7 @@ export default {
 
 <style lang="less">
   @import '~@/assets/css/publicColor.less';
-  .question-content-warp{
 
-    //题型-题组
-    .add-question-group{
-      color: @main;
-      cursor: pointer;
-      width: 100px;
-    }
-  }
   .el-tabs--border-card{
     box-shadow: 0 0px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
 
