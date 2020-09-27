@@ -31,7 +31,10 @@
         </div>
       </div> -->
       <!-- 客观题tabs -->
-      <objective-question-tabs ref="objectiveTabs"/>
+      <objective-question-tabs
+        ref="objectiveTabs"
+        :question-data="question"
+      />
       <!-- 插入操作 -->
       <!-- <div class="insert-wrap">
         <el-checkbox v-model="insert">插入添加题目</el-checkbox>
@@ -106,6 +109,7 @@ export default {
 
     questionIndex: {
       get () {
+        console.log(this.question)
         return (this.question && this.question.serialNumber) || 0
       },
       set (number) {
