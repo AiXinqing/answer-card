@@ -1,11 +1,11 @@
 <template>
-  <div class="objective-tabs-warp">
-      <div class="layui-form">
-        <div class="layui-form-item">
-          <div class="label">每组题数:</div>
-          <el-input v-model="tabPaneData[0].groupSize" placeholder="请输入每组题数" />
-        </div>
+  <div class="question-content-warp">
+    <div class="layui-form">
+      <div class="layui-form-item">
+        <div class="label">每组题数:</div>
+        <el-input v-model="tabPaneData[0].groupSize" placeholder="请输入每组题数" />
       </div>
+    </div>
     <el-tabs type="border-card">
       <el-tab-pane
         v-for="(tabPane,index) in tabPaneData"
@@ -58,7 +58,7 @@ export default {
 
 <style lang="less">
   @import '~@/assets/css/publicColor.less';
-  .objective-tabs-warp{
+  .question-content-warp{
 
     //题型-题组
     .add-question-group{
