@@ -20,6 +20,11 @@
         }
       }
     }
+    .el-input__inner{
+      &:focus{
+        border-color:@main;
+      }
+    }
   }
 
   .el-input__inner{
