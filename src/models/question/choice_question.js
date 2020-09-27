@@ -84,7 +84,7 @@ export default class ChoiceQuestion extends Question {
 
   removeGroup (group) {
     const index = this.groups.findIndex(g => g.uuid === group.uuid)
-    if (index) {
+    if (index > -1) {
       this.groups.splice(index, 1)
       this.subquestions = this.buildSubquestionsFromGroups(this.groups)
     }
