@@ -106,7 +106,7 @@ export default {
 
     questionIndex: {
       get () {
-        return this.question?.serialNumber || 0
+        return (this.question && this.question.serialNumber) || 0
       },
       set (number) {
         if (this.sheet.questions[number]) {
