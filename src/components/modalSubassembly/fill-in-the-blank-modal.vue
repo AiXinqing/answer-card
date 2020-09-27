@@ -14,15 +14,18 @@
     <div class="add-question-group">+ 分段添加小题</div>
 
     <!-- 小题详情 -->
+    <fill-in-the-blank-groups-detail/>
 
   </div>
 </template>
 
 <script>
-import fillInTheBlankGroups from './objective/fillInTheBlank-groups'
+import fillInTheBlankGroups from './fillInTheBlank/fillInTheBlank-groups'
+import fillInTheBlankGroupsDetail from './fillInTheBlank/fillInTheBlank-groups-detail'
 export default {
   components: {
-    fillInTheBlankGroups
+    fillInTheBlankGroups,
+    fillInTheBlankGroupsDetail
   },
   data () {
     return {
@@ -32,6 +35,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" >
 
 </style>
