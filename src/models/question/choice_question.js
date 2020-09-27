@@ -17,7 +17,7 @@ export default class ChoiceQuestion extends Question {
     this.title = attrs.title || this.constructor.Title
     this.groups = attrs.groups || []
 
-    this.trustAttr = TRUSTED_ATTR.group
+    this.trustAttr = attrs.trustAttr || TRUSTED_ATTR.group
 
     this.buildSubquestions(attrs)
   }

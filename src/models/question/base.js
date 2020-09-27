@@ -5,7 +5,7 @@ export default class Question {
 
   constructor (attrs) {
     this.serialNumber = attrs.serialNumber || 0
-    this.title = attrs.title || Question.Title
+    this.title = attrs.title || this.constructor.Title
     this.subquestions = []
   }
 

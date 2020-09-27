@@ -3,16 +3,16 @@
     <div class="layui-form">
       <div class="layui-form-item">
         <div class="label">每组题数:</div>
-        <el-input v-model="tabPaneData[0].groupSize" placeholder="请输入每组题数" />
+        <el-input v-model="question.groupSize" placeholder="请输入每组题数" />
       </div>
     </div>
     <el-tabs type="border-card">
-      <el-tab-pane
+      <!-- <el-tab-pane
         v-for="(tabPane,index) in tabPaneData"
         :key="index"
         :label="tabPane.title"
         :quesiton-detail="tabPane"
-      >
+      > -->
 
         <!-- 题组信息 -->
         <objective-question-groups ref="questionGroups"/>
@@ -23,7 +23,7 @@
         <!-- 小题详情 -->
         <grouping-question/>
 
-      </el-tab-pane>
+      <!-- </el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
@@ -43,14 +43,18 @@ export default {
       required: true
     }
   },
-  computed: {
-    tabPaneData () {
-      const arr = []
-      const { subquestions } = this.questionData
-      for (const i in subquestions) {
-        arr.push(subquestions[i]) // 属性
+
+  data () {
+    return {
+      question: new ObjectiveQuestion(this.questionData.toJSON())
+    }
+  },
+
+  watch: {
+    questionData: {
+      handler (question) {
+        this.question = new ObjectiveQuestion(question.toJSON())
       }
-      return arr
     }
   }
 }

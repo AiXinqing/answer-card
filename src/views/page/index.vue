@@ -36,7 +36,6 @@ export default {
 
   computed: {
     pageSize () {
-      console.log(PAGE_SIZE)
       return {
         width: `${this.sheet.sheetSize}px`,
         height: `${PAGE_SIZE}px`

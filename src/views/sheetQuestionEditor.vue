@@ -49,13 +49,15 @@ export default {
     questionDialog () {
       this.$refs.hehe.open(new ObjectiveQuestion({
         serialNumber: this.sheet.avaliableQuestionSerialNumber,
-        singleChoice: {
-          groups: [],
-          subquestions: []
-        },
-        multipleChoice: {
-          groups: [],
-          subquestions: []
+        subquestions: {
+          singleChoice: {
+            groups: [],
+            subquestions: []
+          },
+          multipleChoice: {
+            groups: [],
+            subquestions: []
+          }
         }
       }))
     }

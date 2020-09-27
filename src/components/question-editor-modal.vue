@@ -24,12 +24,6 @@
           <el-input v-model="question.title" placeholder="请输入内容" />
         </div>
       </div>
-      <!-- <div class="layui-form">
-        <div class="layui-form-item">
-          <div class="label">每组题数:</div>
-          <el-input v-model="input" placeholder="请输入内容" />
-        </div>
-      </div> -->
       <!-- 客观题tabs -->
       <objective-question-tabs
         ref="objectiveTabs"
@@ -74,10 +68,6 @@ import hjDialog from '@/components/elementUi/dialog'
 import hjSelect from '@/components/elementUi/select'
 import hjButton from '@/components/elementUi/button'
 import objectiveQuestionTabs from './modalSubassembly/objective-question-tabs'
-// import fillInTheBlankModal from './modalSubassembly/fill-in-the-blank-modal'
-// import answerTheQuestion from './modalSubassembly/answer-the-question'
-// import chooseToDoQuestion from './modalSubassembly/choose-to-do-question'
-// import compositionEnglishQuestion from './modalSubassembly/composition-english-question'
 
 export default {
   components: {
@@ -85,10 +75,6 @@ export default {
     hjDialog,
     hjButton,
     objectiveQuestionTabs
-    // fillInTheBlankModal,
-    // answerTheQuestion,
-    // chooseToDoQuestion,
-    // compositionEnglishQuestion
   },
   props: {
     sheet: {
@@ -126,7 +112,6 @@ export default {
 
     questionIndex: {
       get () {
-        console.log(this.question)
         return (this.question && this.question.serialNumber) || 0
       },
       set (number) {
