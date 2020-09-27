@@ -12,6 +12,8 @@ export default class ObjectiveQuestion extends Question {
 
     this.title = attrs.title || ObjectiveQuestion.Title
 
+    this.groupSize = attrs.groupSize || 5
+
     this.subquestions = {
       singleChoice: new SingleChoiceQuestion(attrs.singleChoice),
       multipleChoice: new MultipleChoiceQuestion(attrs.multipleChoice)
@@ -36,6 +38,7 @@ export default class ObjectiveQuestion extends Question {
       title: this.title,
       type: this.constructor.name,
       serialNumber: this.serialNumber,
+      groupSize: this.groupSize,
       subscriptions: {
         singleChoice: this.subquestions.singleChoice.toJSON(),
         multipleChoice: this.subquestions.multipleChoice.toJSON()
