@@ -84,14 +84,16 @@ export default class AnswerSheet {
     return PAGE_SIZE_MAP[size] * PAGE_SIZE / column
   }
 
+  // 最近可用的小题编号
   get avaliableSubquestionSerialNumber () {
     let count = 1
-    while (!this.isSerialNumberVaild(count)) {
+    while (!this.isSubquestionSerialNumberVaild(count)) {
       count += 1
     }
     return count
   }
 
+  // 最近可用的大题编号
   get avaliableQuestionSerialNumber () {
     let count = 0
     while (this.questions[count]) {
@@ -109,6 +111,7 @@ export default class AnswerSheet {
     return SHEET_COLUMN[this.settings.size]
   }
 
+  // 判断一个数字是否可以作为小题编号
   isSubquestionSerialNumberVaild (number) {
     return this.questions.filter(Boolean).every(
       question => !question.serialNumberSet.has(number)

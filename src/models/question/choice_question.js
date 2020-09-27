@@ -15,6 +15,17 @@ export default class ChoiceQuestion extends Question {
     super(attrs)
 
     this.title = attrs.title || this.constructor.Title
+    // Array<Group>
+    /**
+     * Group = {
+     *   uuid: Date.now()
+     *   startNumber: this.sheet.avaliableSubquestionSerialNumber
+     *   endNumber: 10
+     *   score: 4
+     *   optionLength: 4
+     *   halfScore: 3 -- 多选必须
+     * }
+     */
     this.groups = attrs.groups || []
 
     this.trustAttr = attrs.trustAttr || TRUSTED_ATTR.group
@@ -62,20 +73,20 @@ export default class ChoiceQuestion extends Question {
     const index = this.groups.findIndex(g => g.uuid === group.uuid)
     if (index > -1) {
       this.groups.splice(index, 1, group)
-      this.buildSubquestionsFromGroups(this.groups)
+      this.subquestions = this.buildSubquestionsFromGroups(this.groups)
     }
   }
 
   addGroup (group) {
     this.groups.push(group)
-    this.buildSubquestionsFromGroups(this.groups)
+    this.subquestions = this.buildSubquestionsFromGroups(this.groups)
   }
 
   removeGroup (group) {
     const index = this.groups.findIndex(g => g.uuid === group.uuid)
     if (index) {
       this.groups.splice(index, 1)
-      this.buildSubquestionsFromGroups(this.groups)
+      this.subquestions = this.buildSubquestionsFromGroups(this.groups)
     }
   }
 

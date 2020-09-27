@@ -46,7 +46,8 @@ export default {
 
   data () {
     return {
-      question: new ObjectiveQuestion(this.questionData.toJSON())
+      question: new ObjectiveQuestion(this.questionData.toJSON()),
+      draftGroup: null
     }
   },
 
