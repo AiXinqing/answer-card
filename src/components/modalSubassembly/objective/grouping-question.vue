@@ -45,11 +45,6 @@ export default {
 <style lang="less">
   @import '~@/assets/css/publicColor.less';
   .question-groups-detail{
-    width: 100%;
-    height: 200px;
-    overflow: auto;
-    border: 1px solid @font-888;
-    margin-top: 15px;
 
     .grouping-detail-info{
       display: flex;
