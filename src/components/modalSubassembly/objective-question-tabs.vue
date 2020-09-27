@@ -1,32 +1,56 @@
 <template>
   <div class="objective-tabs-warp">
+      <div class="layui-form">
+        <div class="layui-form-item">
+          <div class="label">每组题数:</div>
+          <el-input v-model="tabPaneData[0].groupSize" placeholder="请输入每组题数" />
+        </div>
+      </div>
     <el-tabs type="border-card">
       <el-tab-pane
         v-for="(tabPane,index) in tabPaneData"
         :key="index"
-        :label="tabPane"
+        :label="tabPane.title"
+        :quesiton-detail="tabPane"
       >
-      <!-- 题组信息 -->
-      <objective-question-groups ref="questionGroups"/>
-      <!-- 分段小题 -->
-      <div class="add-question-group">+ 分段添加小题</div>
-      <!-- 小题详情 -->
-      <div class="question-groups-detail"></div>
+
+        <!-- 题组信息 -->
+        <objective-question-groups ref="questionGroups"/>
+
+        <!-- 分段小题 -->
+        <div class="add-question-group">+ 分段添加小题</div>
+
+        <!-- 小题详情 -->
+        <grouping-question/>
+
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import objectiveQuestionGroups from './objective-question-groups'
+import objectiveQuestionGroups from './objective/objective-question-groups'
+import groupingQuestion from './objective/grouping-question'
+import ObjectiveQuestion from '@/models/question/objective'
 export default {
   components: {
-    objectiveQuestionGroups
+    objectiveQuestionGroups,
+    groupingQuestion
   },
-  data () {
-    return {
-      tabPaneData: ['单选框', '多选框', '判断']
-
+  props: {
+    questionData: {
+      type: ObjectiveQuestion,
+      required: true
+    }
+  },
+  computed: {
+    tabPaneData () {
+      const arr = []
+      const { subquestions } = this.questionData
+      for (const i in subquestions) {
+        arr.push(subquestions[i]) // 属性
+      }
+      return arr
     }
   }
 }
@@ -35,21 +59,12 @@ export default {
 <style lang="less">
   @import '~@/assets/css/publicColor.less';
   .objective-tabs-warp{
-    margin-top:20px;
 
     //题型-题组
     .add-question-group{
       color: @main;
       cursor: pointer;
       width: 100px;
-    }
-
-    .question-groups-detail{
-      width: 100%;
-      height: 200px;
-      overflow: auto;
-      border: 1px solid @font-888;
-      margin-top: 15px;
     }
   }
   .el-tabs--border-card{
