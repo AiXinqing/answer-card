@@ -40,6 +40,7 @@
             :key="subQuestion.uuid"
             :groups-question="subQuestion"
             :question-type="questionTab.name"
+            :question="question"
           />
         </div>
       </el-tab-pane>
@@ -86,6 +87,7 @@ export default {
           name: i
         })
       }
+      console.log(arr)
       return arr
     }
   },
