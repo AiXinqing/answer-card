@@ -7,14 +7,14 @@
       <!-- 多选 -->
       <template v-if="questionType =='multipleChoice'">
 
-        <el-input v-model.number="data.halfScore" size="mini" />
+        <el-input v-model.number="data.halfScore" size="mini" @blur="updateSubquestion" />
         <span>分,少选得</span>
-        <el-input v-model.number="data.score" size="mini"  :max="data.score" />
+        <el-input v-model.number="data.score" size="mini" @blur="updateSubquestion" :max="data.score" />
         <span>分</span>
       </template>
 
       <template v-else>
-        <el-input v-model.number="data.score" size="mini" />
+        <el-input v-model.number="data.score" @blur="updateSubquestion" size="mini" />
         <span>分</span>
       </template>
 
@@ -22,6 +22,7 @@
         v-model.number="data.optionLength"
         size="mini"
         :disabled="questionType == 's' ? true:false"
+        @blur="updateSubquestion"
       />
       <span>个选项</span>
     </div>
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import ObjectiveQuestion from '@/models/question/objective'
 export default {
   props: {
     groupsQuestion: {
@@ -37,6 +39,10 @@ export default {
     },
     questionType: {
       type: String,
+      required: true
+    },
+    question: {
+      type: ObjectiveQuestion,
       required: true
     }
   },
@@ -50,6 +56,18 @@ export default {
       immediate: true,
       handler (question) {
         this.data = this.groupsQuestion
+      }
+    }
+  },
+  methods: {
+    updateSubquestion () {
+      const { subquestions } = this.question
+      switch (this.questionType) {
+        case 'multipleChoice':
+          subquestions.multipleChoice.updateSubquestion(this.data)
+          break
+        default:
+          subquestions.singleChoice.updateSubquestion(this.data)
       }
     }
   }
