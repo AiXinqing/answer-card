@@ -7,23 +7,39 @@
       </div>
     </div>
     <el-tabs type="border-card">
-      <!-- <el-tab-pane
-        v-for="(tabPane,index) in tabPaneData"
+      <el-tab-pane
+        v-for="(questionTab,index) in supported"
         :key="index"
-        :label="tabPane.title"
-        :quesiton-detail="tabPane"
-      > -->
+        :label="questionTab.title"
+        :quesiton-detail="questionTab"
+      >
 
         <!-- 题组信息 -->
-        <objective-question-groups ref="questionGroups"/>
+        <div class="question-group-wrap">
+          <objective-question-groups
+            ref="questionGroups"
+            v-for="questionObj in questionTab.groups"
+            :key="questionObj.uuid"
+            :question-obj="questionObj"
+            :question-type="questionTab.name"
+            :sheet="sheet"
+            :question="question"
+          />
+        </div>
 
         <!-- 分段小题 -->
         <div class="add-question-group">+ 分段添加小题</div>
 
         <!-- 小题详情 -->
-        <grouping-question/>
-
-      <!-- </el-tab-pane> -->
+        <div class="question-groups-detail">
+          <grouping-question
+            v-for="subQuestion in questionTab.subquestions"
+            :key="subQuestion.uuid"
+            :groups-question="subQuestion"
+            :question-type="questionTab.name"
+          />
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -32,6 +48,8 @@
 import objectiveQuestionGroups from './objective/objective-question-groups'
 import groupingQuestion from './objective/grouping-question'
 import ObjectiveQuestion from '@/models/question/objective'
+import AnswerSheet from '@/models/answer-sheet'
+
 export default {
   components: {
     objectiveQuestionGroups,
@@ -40,6 +58,10 @@ export default {
   props: {
     questionData: {
       type: ObjectiveQuestion,
+      required: true
+    },
+    sheet: {
+      type: AnswerSheet,
       required: true
     }
   },
@@ -51,13 +73,59 @@ export default {
     }
   },
 
+  computed: {
+    supported () {
+      const { subquestions } = this.question
+      const arr = []
+      for (const i in subquestions) {
+        arr.push({
+          ...subquestions[i],
+          name: i
+        })
+      }
+      return arr
+    }
+  },
+
   watch: {
     questionData: {
       handler (question) {
         this.question = new ObjectiveQuestion(question.toJSON())
       }
     }
+  },
+  mounted () {
+    this.initial()
+  },
+  methods: {
+    initial () {
+      const { subquestions } = this.question
+      const questionObj = {
+        startNumber: this.sheet.avaliableSubquestionSerialNumber,
+        endNumber: null,
+        score: null,
+        optionLength: null
+      }
+      this.supported.forEach(question => {
+        const Choice = question.name
+        switch (Choice) {
+          case 'multipleChoice':
+            subquestions.multipleChoice.addGroup({
+              ...questionObj,
+              halfScore: null,
+              uuid: Date.now() + 1
+            })
+            break
+          default:
+            subquestions.singleChoice.addGroup({
+              ...questionObj,
+              uuid: Date.now()
+            })
+        }
+      })
+    }
   }
+
 }
 </script>
 

@@ -1,51 +1,54 @@
 <template>
-  <div class="question-group-wrap">
-    <div
-      class="question-group-item"
-      v-for="question in data"
-      :key="question.uuid"
+  <div class="question-group-item">
+    <span>从</span>
+    <el-input v-model.number="data.startNumber" size="mini" @blur="addGroupsQuestion"/>
+    <span>题到</span>
+    <el-input v-model.number="data.endNumber" size="mini" @blur="addGroupsQuestion"/>
+    <span>题,每题</span>
+    <!-- 多选 -->
+    <template
+      v-if="questionType =='multipleChoice'"
     >
-      <span>从</span>
-      <el-input v-model.number="question.startNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-      <span>题到</span>
-      <el-input v-model.number="question.endNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-      <span>题,每题</span>
-      <!-- 多选 -->
-      <template
-        v-if="questionType =='multipleChoice'"
-      >
-        <el-input v-model.number="question.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-        <span>分,少选得</span>
-        <el-input v-model.number="question.halfScore" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-        <span>分,每题</span>
-      </template>
+      <el-input v-model.number="data.score" size="mini" @blur="addGroupsQuestion"/>
+      <span>分,少选得</span>
+      <el-input v-model.number="data.halfScore" size="mini" @blur="addGroupsQuestion"/>
+      <span>分,每题</span>
+    </template>
 
-      <template v-else>
-        <el-input v-model.number="question.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-        <span>分,每题</span>
-      </template>
-      <el-input
-        v-model.number="question.optionLength"
-        size="mini"
-        onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
-        :disabled="questionType == 's' ? true:false"
-      />
-      <span>个选项</span>
-      <i class="el-icon-delete" ></i>
-    </div>
-
+    <template v-else>
+      <el-input v-model.number="data.score" size="mini" @blur="addGroupsQuestion"/>
+      <span>分,每题</span>
+    </template>
+    <el-input
+      v-model.number="data.optionLength"
+      size="mini"
+      :disabled="questionType == 's' ? true:false"
+      @blur="addGroupsQuestion"
+    />
+    <span>个选项</span>
+    <i class="el-icon-delete" @click="removeGroup()"></i>
   </div>
 </template>
 
 <script>
+import AnswerSheet from '@/models/answer-sheet'
+import ObjectiveQuestion from '@/models/question/objective'
 export default {
   props: {
-    groupsQuestion: {
-      type: Array,
-      default: () => []
+    questionObj: {
+      type: Object,
+      default: () => {}
     },
     questionType: {
       type: String,
+      required: true
+    },
+    sheet: {
+      type: AnswerSheet,
+      required: true
+    },
+    question: {
+      type: ObjectiveQuestion,
       required: true
     }
   },
@@ -55,10 +58,37 @@ export default {
     }
   },
   watch: {
-    groupsQuestion: {
+    questionObj: {
       immediate: true,
       handler (question) {
-        this.data = this.groupsQuestion
+        this.data = this.questionObj
+      }
+    }
+  },
+  methods: {
+    addGroupsQuestion () {
+      const { subquestions } = this.question
+      const { endNumber } = this.data
+      const verification = this.sheet.isSubquestionSerialNumberVaild(endNumber)
+
+      if (verification) {
+        switch (this.questionType) {
+          case 'multipleChoice':
+            subquestions.multipleChoice.updateGroup(this.data)
+            break
+          default:
+            subquestions.singleChoice.updateGroup(this.data)
+        }
+      }
+    },
+    removeGroup () {
+      const { subquestions } = this.question
+      switch (this.questionType) {
+        case 'multipleChoice':
+          subquestions.multipleChoice.removeGroup(this.data)
+          break
+        default:
+          subquestions.singleChoice.removeGroup(this.data)
       }
     }
   }
