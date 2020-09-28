@@ -7,7 +7,7 @@
       </div>
     </div>
     <!-- 禁止切换tabs -->
-    <div class="no-switching-tabs" v-show="noSwitchingTabs" />
+    <div class="no-switching-tabs" v-if="noSwitchingTabs" />
     <el-tabs type="border-card">
       <el-tab-pane
         v-for="(questionTab,index) in supported"
