@@ -28,7 +28,10 @@
         </div>
 
         <!-- 分段小题 -->
-        <div class="add-question-group">+ 分段添加小题</div>
+        <div
+          class="add-question-group"
+          @click="addGroups(questionTab.name)"
+        >+ 分段添加小题</div>
 
         <!-- 小题详情 -->
         <div class="question-groups-detail">
@@ -99,6 +102,12 @@ export default {
   },
   methods: {
     initial () {
+      this.supported.forEach(question => {
+        const Choice = question.name
+        this.addGroups(Choice)
+      })
+    },
+    addGroups (questionType) {
       const { subquestions } = this.question
       const questionObj = {
         startNumber: this.sheet.avaliableSubquestionSerialNumber,
@@ -106,23 +115,20 @@ export default {
         score: null,
         optionLength: null
       }
-      this.supported.forEach(question => {
-        const Choice = question.name
-        switch (Choice) {
-          case 'multipleChoice':
-            subquestions.multipleChoice.addGroup({
-              ...questionObj,
-              halfScore: null,
-              uuid: Date.now() + 1
-            })
-            break
-          default:
-            subquestions.singleChoice.addGroup({
-              ...questionObj,
-              uuid: Date.now()
-            })
-        }
-      })
+      switch (questionType) {
+        case 'multipleChoice':
+          subquestions.multipleChoice.addGroup({
+            ...questionObj,
+            halfScore: null,
+            uuid: Date.now()
+          })
+          break
+        default:
+          subquestions.singleChoice.addGroup({
+            ...questionObj,
+            uuid: Date.now()
+          })
+      }
     }
   }
 
