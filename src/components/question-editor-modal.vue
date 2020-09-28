@@ -85,6 +85,11 @@ export default {
       required: true
     }
   },
+  provide () {
+    return {
+      sheet: this.sheet
+    }
+  },
   data () {
     return {
       question: null,

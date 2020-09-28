@@ -18,23 +18,22 @@
 
         <!-- 题组信息 -->
         <div class="question-group-wrap">
-          <objective-question-groups
+          <SingleChoiceGroup
             ref="questionGroups"
-            v-for="questionObj in questionTab.groups"
-            :key="questionObj.uuid"
-            :question-obj="questionObj"
-            :question-type="questionTab.name"
-            :sheet="sheet"
+            v-for="group in question.subquestions.singleChoice.groups"
+            :key="group.uuid"
+            :group="group"
             :question="question"
-            @form-validation="formValidation"
+            @check-fail="error = $event"
+            @group-valid="updateSingleChoiceGroup"
           />
-          <objective-question-groups
+          <SingleChoiceGroup
             v-if="draftGroup"
-            :question-obj="draftGroup"
-            :question-type="questionTab.name"
-            :sheet="sheet"
+            ref="questionGroups"
+            :group="draftGroup"
             :question="question"
-            @form-validation="formValidation"
+            @check-fail="error = $event"
+            @group-valid="addSingleChoiceGroup"
           />
         </div>
 
@@ -60,15 +59,15 @@
 </template>
 
 <script>
-import objectiveQuestionGroups from './objective/objective-question-groups'
+import SingleChoiceGroup from './objective/single-group'
 import groupingQuestion from './objective/grouping-question'
 import ObjectiveQuestion from '@/models/question/objective'
 import AnswerSheet from '@/models/answer-sheet'
 
 export default {
   components: {
-    objectiveQuestionGroups,
-    groupingQuestion
+    groupingQuestion,
+    SingleChoiceGroup
   },
   props: {
     questionData: {
@@ -110,7 +109,7 @@ export default {
       return arr
     },
     noSwitchingTabs () {
-      return this.error !== '' ? 1 : 0
+      return Boolean(this.error)
     }
   },
 
@@ -119,6 +118,10 @@ export default {
       handler (question) {
         this.question = new ObjectiveQuestion(question.toJSON())
       }
+    },
+
+    error () {
+      this.$emit('form-validation', this.error)
     }
   },
 
@@ -129,6 +132,18 @@ export default {
         this.addGroups(Choice)
       })
     },
+
+    addSingleChoiceGroup (group) {
+      this.error = ''
+      this.draftGroup = null
+      this.question.subquestions.singleChoice.addGroup(group)
+    },
+
+    updateSingleChoiceGroup (group) {
+      this.error = ''
+      this.question.subquestions.singleChoice.updateGroup(group)
+    },
+
     addGroups (questionType) {
       const { subquestions } = this.question
       const questionObj = {
@@ -151,10 +166,6 @@ export default {
             uuid: Date.now()
           })
       }
-    },
-    formValidation (error) {
-      this.error = error
-      this.$emit('form-validation', error)
     }
   }
 
