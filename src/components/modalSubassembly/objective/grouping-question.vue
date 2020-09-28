@@ -100,11 +100,11 @@ export default {
 
       .question-info{
         flex-shrink: 1;
-        align-self: end;
+        align-self: flex-end;
         order:1;
         text-align: center;
         display: flex;
-        justify-content:end;
+        justify-content:flex-end;
         position: absolute;
         right: 0;
 

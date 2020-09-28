@@ -28,6 +28,14 @@
             :question="question"
             @form-validation="formValidation"
           />
+          <objective-question-groups
+            v-if="draftGroup"
+            :question-obj="draftGroup"
+            :question-type="questionTab.name"
+            :sheet="sheet"
+            :question="question"
+            @form-validation="formValidation"
+          />
         </div>
 
         <!-- 分段小题 -->
@@ -76,7 +84,14 @@ export default {
   data () {
     return {
       question: new ObjectiveQuestion(this.questionData.toJSON()),
-      draftGroup: null,
+      draftGroup: this.questionData.subquestions.singleChoice.groups.length
+        ? null : {
+          uuid: Date.now(),
+          startNumber: this.sheet.avaliableSubquestionSerialNumber,
+          endNumber: null,
+          score: null,
+          optionLength: 4
+        },
       error: ''
     }
   },
@@ -106,9 +121,7 @@ export default {
       }
     }
   },
-  mounted () {
-    this.initial()
-  },
+
   methods: {
     initial () {
       this.supported.forEach(question => {
