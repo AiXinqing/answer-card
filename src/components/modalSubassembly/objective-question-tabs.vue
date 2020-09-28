@@ -6,6 +6,8 @@
         <el-input v-model="question.groupSize" placeholder="请输入每组题数" />
       </div>
     </div>
+    <!-- 禁止切换tabs -->
+    <div class="no-switching-tabs" v-show="noSwitchingTabs" />
     <el-tabs type="border-card">
       <el-tab-pane
         v-for="(questionTab,index) in supported"
@@ -73,7 +75,8 @@ export default {
   data () {
     return {
       question: new ObjectiveQuestion(this.questionData.toJSON()),
-      draftGroup: null
+      draftGroup: null,
+      noSwitchingTabs: false
     }
   },
 
@@ -139,6 +142,18 @@ export default {
 
 <style lang="less">
   @import '~@/assets/css/publicColor.less';
+  .question-content-warp{
+    position: relative;
+
+    .no-switching-tabs{
+      position: absolute;
+      height: 39px;
+      background-color: transparent;
+      margin-top: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+  }
 
   .el-tabs--border-card{
     box-shadow: 0 0px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
