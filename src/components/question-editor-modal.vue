@@ -54,6 +54,7 @@
         </div>
         <el-checkbox v-model="postpone">大题号自动顺延</el-checkbox>
       </div> -->
+      <div class="error-message">错误提示</div>
     </div>
     <div class="dialog-footer ">
       <hj-button type="cancel"  class="cancel"  @click="cancel">取 消</hj-button>
@@ -194,5 +195,10 @@ export default {
         width: 130px;
       }
     }
+  }
+  .error-message{
+    font-size: 14px;
+    color: red;
+    margin-top: 10px;
   }
 </style>
