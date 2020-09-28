@@ -12,7 +12,7 @@
       <span>题,每题</span>
       <!-- 多选 -->
       <template
-        v-if="questionType =='MultipleChoiceQuestion'"
+        v-if="questionType =='multipleChoice'"
       >
         <el-input v-model.number="question.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
         <span>分,少选得</span>

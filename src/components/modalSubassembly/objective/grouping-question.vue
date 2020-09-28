@@ -8,7 +8,7 @@
       <div class="question-number">1</div>
       <div class="question-info">
         <!-- 多选 -->
-        <template v-if="questionType =='MultipleChoiceQuestion'">
+        <template v-if="questionType =='multipleChoice'">
           <el-input v-model.number="question.halfScore" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
           <span>分,少选得</span>
           <el-input v-model.number="question.score" size="mini"  :max="data.score" onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
