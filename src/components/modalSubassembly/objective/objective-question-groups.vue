@@ -6,7 +6,7 @@
       :key="question.uuid"
     >
       <span>从</span>
-      <el-input v-model.number="question.StartNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
+      <el-input v-model.number="question.startNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
       <span>题到</span>
       <el-input v-model.number="question.endNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
       <span>题,每题</span>
