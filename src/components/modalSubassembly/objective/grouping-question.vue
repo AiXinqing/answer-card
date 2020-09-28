@@ -1,31 +1,31 @@
 <template>
   <div class="question-groups-detail">
-    <div class="grouping-detail-info">
+    <div
+      class="grouping-detail-info"
+      v-for="question in data"
+      :key="question.uuid"
+    >
       <div class="question-number">1</div>
       <div class="question-info">
-        <el-input v-model.number="data.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-        <span>分</span>
-        <el-input v-model.number="data.select" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-        <span>个选项</span>
-      </div>
-    </div>
-    <div class="grouping-detail-info">
-      <div class="question-number">1</div>
-      <div class="question-info">
-        <el-input v-model.number="data.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-        <span>分,少选得</span>
-        <el-input v-model.number="data.lessScore" size="mini"  :max="data.score" onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-        <span>分</span>
-        <el-input v-model="data.select" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-        <span>个选项</span>
-      </div>
-    </div>
-    <div class="grouping-detail-info">
-      <div class="question-number">1</div>
-      <div class="question-info">
-        <el-input v-model="data.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-        <span>分</span>
-        <el-input v-model="data.select" disabled size="mini" />
+        <!-- 多选 -->
+        <template v-if="questionType =='MultipleChoiceQuestion'">
+          <el-input v-model.number="question.halfScore" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
+          <span>分,少选得</span>
+          <el-input v-model.number="question.score" size="mini"  :max="data.score" onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
+          <span>分</span>
+        </template>
+
+        <template v-else>
+          <el-input v-model.number="question.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
+          <span>分</span>
+        </template>
+
+        <el-input
+          v-model.number="question.optionLength"
+          size="mini"
+          :disabled="questionType == 's' ? true:false"
+          onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
+        />
         <span>个选项</span>
       </div>
     </div>
@@ -34,9 +34,27 @@
 
 <script>
 export default {
+  props: {
+    groupsQuestion: {
+      type: Array,
+      default: () => []
+    },
+    questionType: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       data: {}
+    }
+  },
+  watch: {
+    groupsQuestion: {
+      immediate: true,
+      handler (question) {
+        this.data = this.groupsQuestion
+      }
     }
   }
 }

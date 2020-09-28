@@ -1,57 +1,65 @@
 <template>
   <div class="question-group-wrap">
-    <div class="question-group-item">
+    <div
+      class="question-group-item"
+      v-for="question in data"
+      :key="question.uuid"
+    >
       <span>从</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
+      <el-input v-model.number="question.StartNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
       <span>题到</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
+      <el-input v-model.number="question.endNumber" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
       <span>题,每题</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
-      <span>分,每题</span>
-      <el-input v-model.number="input" size="mini"   onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
+      <!-- 多选 -->
+      <template
+        v-if="questionType =='MultipleChoiceQuestion'"
+      >
+        <el-input v-model.number="question.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
+        <span>分,少选得</span>
+        <el-input v-model.number="question.halfScore" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
+        <span>分,每题</span>
+      </template>
+
+      <template v-else>
+        <el-input v-model.number="question.score" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" />
+        <span>分,每题</span>
+      </template>
+      <el-input
+        v-model.number="question.optionLength"
+        size="mini"
+        onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
+        :disabled="questionType == 's' ? true:false"
+      />
       <span>个选项</span>
       <i class="el-icon-delete" ></i>
     </div>
-    <!-- <div class="question-group-item">
-      <span>从</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>题到</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>题,每题</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>分,少选</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>得分,每题</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>个选项</span>
-      <i class="el-icon-delete"></i>
-    </div>
-    <div class="question-group-item">
-      <span>从</span>
-      <el-input v-model.number="input"  size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>题到</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>题,每题</span>
-      <el-input v-model.number="input" size="mini"  onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"/>
-      <span>分,每题</span>
-      <el-input v-model.number="input" disabled size="mini"  />
-      <span>个选项</span>
-      <i class="el-icon-delete"></i>
-    </div> -->
+
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    quesitonDetail: {
-      type: Object,
-      default: () => {}
+    groupsQuestion: {
+      type: Array,
+      default: () => []
+    },
+    questionType: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
-      input: ''
+      data: {}
+    }
+  },
+  watch: {
+    groupsQuestion: {
+      immediate: true,
+      handler (question) {
+        this.data = this.groupsQuestion
+      }
     }
   }
 }
