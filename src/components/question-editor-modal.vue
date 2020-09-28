@@ -28,6 +28,7 @@
       <objective-question-tabs
         ref="objectiveTabs"
         :question-data="question"
+        :sheet="sheet"
       />
       <!-- 填空题 -->
       <!-- <fill-in-the-blank-modal/> -->
