@@ -26,6 +26,7 @@
             :question-type="questionTab.name"
             :sheet="sheet"
             :question="question"
+            @form-validation="formValidation"
           />
         </div>
 
@@ -76,7 +77,7 @@ export default {
     return {
       question: new ObjectiveQuestion(this.questionData.toJSON()),
       draftGroup: null,
-      noSwitchingTabs: false
+      error: ''
     }
   },
 
@@ -92,6 +93,9 @@ export default {
       }
       console.log(arr)
       return arr
+    },
+    noSwitchingTabs () {
+      return this.error !== '' ? 1 : 0
     }
   },
 
@@ -134,6 +138,10 @@ export default {
             uuid: Date.now()
           })
       }
+    },
+    formValidation (error) {
+      this.error = error
+      this.$emit('form-validation', error)
     }
   }
 

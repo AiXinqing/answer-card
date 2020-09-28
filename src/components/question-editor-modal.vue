@@ -29,6 +29,7 @@
         ref="objectiveTabs"
         :question-data="question"
         :sheet="sheet"
+        @form-validation="formValidation"
       />
       <!-- 填空题 -->
       <!-- <fill-in-the-blank-modal/> -->
@@ -144,6 +145,9 @@ export default {
     handleDetermine () {
       this.sheet.addQuestion(this.question)
       this.close()
+    },
+    formValidation (error) {
+      this.errorMessage = error
     }
   }
 }

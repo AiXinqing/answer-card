@@ -57,6 +57,16 @@ export default {
       data: {}
     }
   },
+  computed: {
+    errormessage () {
+      const { endNumber, score, startNumber } = this.data
+
+      return endNumber === 0 ? '结束题号必须大于0'
+        : endNumber !== '' && startNumber === 0 ? '开始题号必须大于0'
+          : endNumber !== '' && endNumber < startNumber ? '开始题号不能大于结束题号'
+            : endNumber !== '' && score === null ? '分数不能为空' : ''
+    }
+  },
   watch: {
     questionObj: {
       immediate: true,
@@ -71,7 +81,12 @@ export default {
       const { endNumber } = this.data
       const verification = this.sheet.isSubquestionSerialNumberVaild(endNumber)
 
-      if (verification) {
+      this.$emit('form-validation', this.errormessage)
+      if (this.errormessage !== '') {
+        return false
+      }
+
+      if (verification && endNumber !== '') {
         switch (this.questionType) {
           case 'multipleChoice':
             subquestions.multipleChoice.updateGroup(this.data)
