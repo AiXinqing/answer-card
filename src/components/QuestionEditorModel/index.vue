@@ -27,6 +27,7 @@
       <!-- 客观题tabs -->
       <objective-question-tabs
         ref="objectiveTabs"
+        v-if="question"
         :question-data="question"
         :sheet="sheet"
         @form-validation="formValidation"
@@ -144,6 +145,7 @@ export default {
     },
     close () {
       this.dialogVisible = false
+      this.question = null
     },
     open (question) {
       this.question = question

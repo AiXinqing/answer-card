@@ -1,4 +1,5 @@
 import Question from './base'
+import JudgmentChoiceQuestion from './judgment-choice'
 import MultipleChoiceQuestion from './multiple-choice'
 import SingleChoiceQuestion from './single-choice'
 
@@ -16,7 +17,8 @@ export default class ObjectiveQuestion extends Question {
 
     this.subquestions = {
       singleChoice: new SingleChoiceQuestion(attrs.subquestions.singleChoice),
-      multipleChoice: new MultipleChoiceQuestion(attrs.subquestions.multipleChoice)
+      multipleChoice: new MultipleChoiceQuestion(attrs.subquestions.multipleChoice),
+      judgmentChoice: new JudgmentChoiceQuestion(attrs.subquestions.judgmentChoice)
     }
   }
 
@@ -29,7 +31,8 @@ export default class ObjectiveQuestion extends Question {
   get serialNumberSet () {
     return new Set([
       ...this.subquestions.singleChoice.serialNumberSet,
-      ...this.subquestions.multipleChoice.serialNumberSet
+      ...this.subquestions.multipleChoice.serialNumberSet,
+      ...this.subquestions.judgmentChoice.serialNumberSet
     ])
   }
 
@@ -41,7 +44,8 @@ export default class ObjectiveQuestion extends Question {
       groupSize: this.groupSize,
       subquestions: {
         singleChoice: this.subquestions.singleChoice.toJSON(),
-        multipleChoice: this.subquestions.multipleChoice.toJSON()
+        multipleChoice: this.subquestions.multipleChoice.toJSON(),
+        judgmentChoice: this.subquestions.judgmentChoice.toJSON()
       }
     }
   }
