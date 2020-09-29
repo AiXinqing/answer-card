@@ -21,6 +21,7 @@
           :question-data="questionData"
           :sheet="sheet"
           :question-list="questionTab.subquestions"
+          @check-fail="error = $event"
         />
       </el-tab-pane>
     </el-tabs>
@@ -67,7 +68,6 @@ export default {
           name: i
         })
       }
-      console.log(arr)
       return arr
     },
     noSwitchingTabs () {

@@ -83,7 +83,7 @@ export default {
   },
   watch: {
     error () {
-      this.$emit('form-validation', this.error)
+      this.$emit('check-fail', this.error)
     }
   },
   methods: {
