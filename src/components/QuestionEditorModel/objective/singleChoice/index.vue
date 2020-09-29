@@ -119,6 +119,11 @@ export default {
           score: null,
           optionLength: 4
         }
+      } else {
+        this.$message({
+          message: '已有分段,请添加完小题后,再添加',
+          type: 'warning'
+        })
       }
     }
   }
