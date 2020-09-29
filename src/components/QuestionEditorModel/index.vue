@@ -30,6 +30,7 @@
         :question-data="question"
         :sheet="sheet"
         @form-validation="formValidation"
+        @confirm-button="isDisabled = $event"
       />
       <!-- 填空题 -->
       <!-- <fill-in-the-blank-modal/> -->
@@ -59,7 +60,7 @@
     </div>
     <div class="dialog-footer ">
       <hj-button type="cancel"  class="cancel"  @click="cancel">取 消</hj-button>
-      <hj-button type="cancel"  class="confirm"  @click="handleDetermine">确 定</hj-button>
+      <hj-button type="cancel"  class="confirm" :disabled ="isDisabled"  @click="handleDetermine">确 定</hj-button>
     </div>
   </hj-dialog>
 </template>
@@ -106,7 +107,8 @@ export default {
       ],
       insert: true,
       postpone: false,
-      errorMessage: ''
+      errorMessage: '',
+      isDisabled: true
     }
   },
   computed: {

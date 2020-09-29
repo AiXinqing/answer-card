@@ -56,7 +56,8 @@ export default {
   data () {
     return {
       question: new ObjectiveQuestion(this.questionData.toJSON()),
-      error: ''
+      error: '',
+      disabled: true
     }
   },
 
@@ -70,6 +71,7 @@ export default {
           name: i
         })
       }
+      console.log(arr)
       return arr
     },
     noSwitchingTabs () {
@@ -86,6 +88,14 @@ export default {
 
     error () {
       this.$emit('form-validation', this.error)
+    },
+
+    supported () {
+      const index = this.supported.findIndex(question => question.groups.length > 0)
+      if (index > -1) {
+        this.disabled = false
+      } else { this.disabled = true }
+      this.$emit('confirm-button', this.disabled)
     }
   }
 

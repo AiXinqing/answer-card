@@ -42,4 +42,12 @@ button.el-button.el-button--default.el-button--medium {
     margin-left: 10px;
   }
 }
+button.el-button.confirm.el-button--cancel.is-disabled{
+  background-color:#ddd !important;
+  color:@white !important;
+  &:hover{
+    background-color:#ddd !important;
+    color:@white !important;
+  }
+}
 </style>
