@@ -10,6 +10,7 @@
         :question="question"
         @check-fail="error = $event"
         @group-valid="updateSingleChoiceGroup"
+        @remove="removeGroup"
       />
       <SingleChoiceGroup
         v-if="draftGroup"
@@ -18,6 +19,7 @@
         :question="question"
         @check-fail="error = $event"
         @group-valid="addSingleChoiceGroup"
+        @remove="removeGroup"
       />
     </div>
 
@@ -98,8 +100,14 @@ export default {
       this.question.subquestions.singleChoice.updateGroup(group)
     },
 
-    addGroups () {
+    removeGroup (group) {
+      this.question.subquestions.singleChoice.removeGroup(group)
+    },
 
+    addGroups () {
+      if (this.draftGroup) {
+        console.log(this.draftGroup)
+      }
     }
   }
 }
