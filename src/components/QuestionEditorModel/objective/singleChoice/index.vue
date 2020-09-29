@@ -1,7 +1,7 @@
 <template>
   <div class="el-tab-panes">
     <!-- 题组信息 -->
-    <!-- <div class="question-group-wrap">
+    <div class="question-group-wrap">
       <SingleChoiceGroup
         ref="questionGroups"
         v-for="group in question.subquestions.singleChoice.groups"
@@ -19,31 +19,37 @@
         @check-fail="error = $event"
         @group-valid="addSingleChoiceGroup"
       />
-    </div> -->
+    </div>
 
     <!-- 分段小题 -->
-    <!-- <div
+    <div
       class="add-question-group"
-      @click="addGroups(questionTab.name)"
-    >+ 分段添加小题</div> -->
+      @click="addGroups"
+    >+ 分段添加小题</div>
 
     <!-- 小题详情 -->
-    <!-- <div class="question-groups-detail">
-      <grouping-question
-        v-for="subQuestion in questionTab.subquestions"
+    <div class="question-groups-detail">
+      <group-list
+        v-for="subQuestion in questionList"
         :key="subQuestion.uuid"
         :groups-question="subQuestion"
-        :question-type="questionTab.name"
         :question="question"
       />
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
 import ObjectiveQuestion from '@/models/question/objective'
 import AnswerSheet from '@/models/answer-sheet'
+import SingleChoiceGroup from './group-item'
+import groupList from './question-list'
+
 export default {
+  components: {
+    SingleChoiceGroup,
+    groupList
+  },
   props: {
     questionData: {
       type: ObjectiveQuestion,
@@ -56,6 +62,10 @@ export default {
     sheet: {
       type: AnswerSheet,
       required: true
+    },
+    questionList: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -67,7 +77,29 @@ export default {
           endNumber: null,
           score: null,
           optionLength: 4
-        }
+        },
+      error: ''
+    }
+  },
+  watch: {
+    error () {
+      this.$emit('form-validation', this.error)
+    }
+  },
+  methods: {
+    addSingleChoiceGroup (group) {
+      this.error = ''
+      this.draftGroup = null
+      this.question.subquestions.singleChoice.addGroup(group)
+    },
+
+    updateSingleChoiceGroup (group) {
+      this.error = ''
+      this.question.subquestions.singleChoice.updateGroup(group)
+    },
+
+    addGroups () {
+
     }
   }
 }
