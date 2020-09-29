@@ -34,11 +34,13 @@ import ObjectiveQuestion from '@/models/question/objective'
 import AnswerSheet from '@/models/answer-sheet'
 import singleChoice from './singleChoice'
 import multipleChoice from './multipleChoice'
+import judgmentChoice from './judgmentChoice'
 
 export default {
   components: {
     singleChoice,
-    multipleChoice
+    multipleChoice,
+    judgmentChoice
   },
   props: {
     questionData: {
