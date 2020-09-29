@@ -64,10 +64,11 @@ export default {
     },
 
     errorMessage (message) {
+      console.log(this.formal)
       if (message) {
         this.$emit('check-fail', message)
       } else {
-        this.$emit('group-valid', { ...this.data })
+        this.$emit('group-valid', { group: this.data, formal: this.formal })
       }
     }
   },
