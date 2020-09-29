@@ -91,10 +91,16 @@ export default {
     }
   },
   methods: {
-    addSingleChoiceGroup (group) {
+    addSingleChoiceGroup (groups) {
+      const { group, formal } = groups
       this.error = ''
       this.draftGroup = null
-      this.question.subquestions.multipleChoice.addGroup(group)
+      if (!formal) { // 非正式
+        this.draftGroup = null
+        this.question.subquestions.multipleChoice.addGroup(group)
+      } else {
+        this.updateSingleChoiceGroup(group)
+      }
     },
 
     updateSingleChoiceGroup (group) {
