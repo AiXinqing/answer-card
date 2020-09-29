@@ -70,7 +70,7 @@ import { QUESTION_NUMBERS } from '@/models/question'
 import hjDialog from '@/components/elementUi/dialog'
 import hjSelect from '@/components/elementUi/select'
 import hjButton from '@/components/elementUi/button'
-import objectiveQuestionTabs from './modalSubassembly/objective-question-tabs'
+import objectiveQuestionTabs from './objective'
 
 export default {
   components: {
