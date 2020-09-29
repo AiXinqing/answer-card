@@ -22,6 +22,10 @@ export default class Question {
     return new Set(this.subquestions.map(question => question.serialNumber))
   }
 
+  isSerialNumberValid (number) {
+    return !this.serialNumberSet.has(number)
+  }
+
   toJSON () {
     return {
       type: this.constructor.name,

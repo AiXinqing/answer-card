@@ -9,7 +9,7 @@
         :group="group"
         :question="question"
         @check-fail="error = $event"
-        @group-valid="updateSingleChoiceGroup"
+        @group-valid="updateGroup"
         @remove="removeGroup"
       />
       <SingleChoiceGroup
@@ -17,9 +17,8 @@
         ref="questionGroups"
         :group="draftGroup"
         :question="question"
-        :formal="false"
         @check-fail="error = $event"
-        @group-valid="addSingleChoiceGroup"
+        @group-valid="addGroup"
         @remove="removeGroup"
       />
     </div>
@@ -27,7 +26,7 @@
     <!-- 分段小题 -->
     <div
       class="add-question-group"
-      @click="addGroups"
+      @click="addDraftGroup"
     >+ 分段添加小题</div>
 
     <!-- 小题详情 -->
@@ -54,10 +53,6 @@ export default {
     groupList
   },
   props: {
-    questionData: {
-      type: ObjectiveQuestion,
-      required: true
-    },
     question: {
       type: ObjectiveQuestion,
       required: true
@@ -73,63 +68,73 @@ export default {
   },
   data () {
     return {
-      draftGroup: this.questionData.subquestions.singleChoice.groups.length
-        ? null : {
-          uuid: Date.now(),
-          startNumber: this.sheet.avaliableSubquestionSerialNumber,
-          endNumber: null,
-          score: null,
-          optionLength: 4
-        },
+      draftGroup: null,
       error: ''
     }
   },
+
+  computed: {
+    avaliableSubquestionSerialNumber () {
+      let number = this.sheet.avaliableSubquestionSerialNumber
+      while (
+        !this.sheet.isSubquestionSerialNumberVaild(number) ||
+        !this.question.isSerialNumberValid(number)
+      ) {
+        number += 1
+      }
+      return number
+    }
+  },
+
+  created () {
+    if (!this.question.subquestions.singleChoice.groups.length) {
+      this.addDraftGroup()
+    }
+  },
+
   watch: {
     error () {
       this.$emit('check-fail', this.error)
     }
   },
+
   methods: {
-    addSingleChoiceGroup (groups) {
+    addGroup (group) {
       this.error = ''
-      const { formal, group } = groups
-      if (!formal) { // 非正式
-        this.draftGroup = null
-        this.question.subquestions.singleChoice.addGroup(group)
-      } else {
-        this.updateSingleChoiceGroup(group)
-      }
+      this.draftGroup = null
+      this.question.subquestions.singleChoice.addGroup({
+        ...group,
+        uuid: Date.now()
+      })
     },
 
-    updateSingleChoiceGroup (group) {
+    updateGroup (group) {
       this.error = ''
       this.question.subquestions.singleChoice.updateGroup(group)
     },
 
-    removeGroup (groups) {
+    removeGroup (group) {
       this.error = ''
-      const { formal, group } = groups
-      if (!formal) {
-        this.draftGroup = null
-      } else {
+      if (group.uuid) {
         this.question.subquestions.singleChoice.removeGroup(group)
+      } else {
+        this.draftGroup = null
       }
     },
 
-    addGroups () {
-      if (!this.draftGroup) {
-        this.draftGroup = {
-          uuid: Date.now(),
-          startNumber: this.sheet.avaliableSubquestionSerialNumber,
-          endNumber: null,
-          score: null,
-          optionLength: 4
-        }
-      } else {
+    addDraftGroup () {
+      if (this.draftGroup) {
         this.$message({
           message: '已有分段,请添加完小题后,再添加',
           type: 'warning'
         })
+      } else {
+        this.draftGroup = {
+          startNumber: this.avaliableSubquestionSerialNumber,
+          endNumber: null,
+          score: null,
+          optionLength: 4
+        }
       }
     }
   }

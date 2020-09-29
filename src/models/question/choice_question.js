@@ -52,13 +52,13 @@ export default class ChoiceQuestion extends Question {
   buildSubquestionsFromGroups (groups) {
     this.trustAttr = TRUSTED_ATTR.group
     return groups.reduce((acc, group) => {
+      const { startNumber, endNumber, uuid, ...rest } = group
       return acc.concat(
-        Array.from({ length: group.endNumber - group.startNumber + 1 })
+        Array.from({ length: endNumber - startNumber + 1 })
           .map((_, index) => {
             return this.buildSubquestion({
-              serialNumber: group.startNumber + index,
-              score: group.score,
-              optionLength: group.optionLength
+              serialNumber: startNumber + index,
+              ...rest
             })
           })
       )

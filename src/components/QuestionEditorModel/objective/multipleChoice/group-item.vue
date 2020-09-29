@@ -15,7 +15,7 @@
       @blur="checkGroupValid"
     />
     <span>个选项</span>
-    <i class="el-icon-delete" @click="$emit('remove', {group:group,formal:formal})"></i>
+    <i class="el-icon-delete" @click="$emit('remove', group)"></i>
   </div>
 </template>
 
@@ -30,10 +30,6 @@ export default {
     question: {
       type: Object,
       required: true
-    },
-    formal: {
-      type: Boolean,
-      default: true
     }
   },
 
@@ -51,10 +47,10 @@ export default {
   computed: {
     errorPrompt () {
       const { endNumber, score, startNumber } = this.data
-      return endNumber === 0 ? '结束题号必须大于0'
-        : endNumber !== null && endNumber !== '' && startNumber === 0 ? '开始题号必须大于0'
-          : endNumber !== null && endNumber !== '' && endNumber < startNumber ? '开始题号不能大于结束题号'
-            : endNumber !== null && endNumber !== '' && score === null ? '分数不能为空' : ''
+      return endNumber <= 0 ? '结束题号必须大于0'
+        : endNumber && startNumber <= 0 ? '开始题号必须大于0'
+          : endNumber && endNumber < startNumber ? '开始题号不能大于结束题号'
+            : endNumber && !score ? '分数不能为空' : ''
     }
   },
 
@@ -69,7 +65,7 @@ export default {
       if (message) {
         this.$emit('check-fail', message)
       } else {
-        this.$emit('group-valid', { group: this.data, formal: this.formal })
+        this.$emit('group-valid', { ...this.data })
       }
     }
   },
@@ -77,10 +73,9 @@ export default {
   methods: {
     checkGroupValid () {
       this.errorMessage = this.errorPrompt
+      if (this.errorMessage) return false
+
       const { startNumber, endNumber } = this.data
-      if (this.errorMessage !== '') {
-        return false
-      }
       const serialNumbers = Array.from({ length: endNumber - startNumber + 1 })
         .map((_, index) => index + startNumber)
       return serialNumbers.every(number => {
