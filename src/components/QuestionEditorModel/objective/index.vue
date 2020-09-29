@@ -131,4 +131,53 @@ export default {
       border-color:@main
     }
   }
+  .question-groups-detail{
+
+    .grouping-detail-info{
+      display: flex;
+      align-items:center;
+      height: 39px;
+      line-height: 39px;
+      border-bottom: 1px solid @font-888;
+      font-size: 14px;
+      position: relative;
+
+      &:last-child{
+        border-bottom: none;
+      }
+
+      .question-number{
+        width: 120px;
+        flex-shrink: 0;
+        order:0;
+        text-indent: 1em;
+      }
+
+      .question-info{
+        flex-shrink: 1;
+        align-self: flex-end;
+        order:1;
+        text-align: center;
+        display: flex;
+        justify-content:flex-end;
+        position: absolute;
+        right: 0;
+
+        span{
+          margin: 0 8px;
+        }
+
+        .el-input{
+          &.el-input--mini{
+            width: 60px;
+
+            .el-input__inner{
+              padding: 0 0;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>
