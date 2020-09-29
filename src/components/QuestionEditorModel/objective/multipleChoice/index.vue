@@ -31,11 +31,10 @@
 
     <!-- 小题详情 -->
     <div class="question-groups-detail">
-      <group-list
-        v-for="subQuestion in questionList"
-        :key="subQuestion.uuid"
-        :groups-question="subQuestion"
-        :question="question"
+      <question-item
+        v-for="subQuestion in question.subquestions.multipleChoice.subquestions"
+        :key="subQuestion.serialNumber"
+        :question="subQuestion"
       />
     </div>
   </div>
@@ -45,12 +44,12 @@
 import ObjectiveQuestion from '@/models/question/objective'
 import AnswerSheet from '@/models/answer-sheet'
 import multipleChoiceGroup from './group-item'
-import groupList from './question-list'
+import questionItem from './question-item'
 
 export default {
   components: {
     multipleChoiceGroup,
-    groupList
+    questionItem
   },
   props: {
     question: {
@@ -59,10 +58,6 @@ export default {
     },
     sheet: {
       type: AnswerSheet,
-      required: true
-    },
-    questionList: {
-      type: Array,
       required: true
     }
   },

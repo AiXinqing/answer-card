@@ -17,10 +17,9 @@
       >
         <component
           :is="questionTab.name"
+          :key="questionTab.title"
           :question="question"
-          :question-data="questionData"
           :sheet="sheet"
-          :question-list="questionTab.subquestions"
           @check-fail="error = $event"
         />
       </el-tab-pane>
@@ -71,7 +70,6 @@ export default {
           name: i
         })
       }
-      console.log(arr)
       return arr
     },
     noSwitchingTabs () {

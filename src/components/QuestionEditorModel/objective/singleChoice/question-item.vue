@@ -4,12 +4,11 @@
   >
     <div class="question-number">{{data.serialNumber}}</div>
     <div class="question-info">
-      <el-input v-model.number="data.score" @blur="updateSubquestion" size="mini" />
+      <el-input v-model.number="data.score" size="mini" />
       <span>分</span>
       <el-input
         v-model.number="data.optionLength"
         size="mini"
-        @blur="updateSubquestion"
       />
       <span>个选项</span>
     </div>
@@ -17,35 +16,25 @@
 </template>
 
 <script>
-import ObjectiveQuestion from '@/models/question/objective'
+import Choice from '@/models/question/choice'
 export default {
   props: {
-    groupsQuestion: {
-      type: Object,
-      default: () => {}
-    },
     question: {
-      type: ObjectiveQuestion,
+      type: Choice,
       required: true
     }
   },
   data () {
     return {
-      data: {}
+      data: this.question
     }
   },
   watch: {
-    groupsQuestion: {
+    question: {
       immediate: true,
       handler (question) {
-        this.data = this.groupsQuestion
+        this.data = question
       }
-    }
-  },
-  methods: {
-    updateSubquestion () {
-      const { subquestions } = this.question
-      subquestions.singleChoice.updateSubquestion(this.data)
     }
   }
 }
