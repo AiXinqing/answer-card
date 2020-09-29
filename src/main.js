@@ -10,6 +10,7 @@ import {
   Col,
   Input,
   MessageBox,
+  Message,
   Tabs,
   TabPane
 } from 'element-ui'
@@ -31,6 +32,7 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$message = Message
 
 Vue.config.productionTip = false
 
