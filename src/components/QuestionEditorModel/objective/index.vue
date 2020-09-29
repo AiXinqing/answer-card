@@ -20,6 +20,7 @@
           :question="question"
           :question-data="questionData"
           :sheet="sheet"
+          :question-list="questionTab.subquestions"
         />
       </el-tab-pane>
     </el-tabs>
@@ -27,8 +28,7 @@
 </template>
 
 <script>
-// import SingleChoiceGroup from './objective/single-group'
-// import groupingQuestion from './objective/grouping-question'
+
 import ObjectiveQuestion from '@/models/question/objective'
 import AnswerSheet from '@/models/answer-sheet'
 import singleChoice from './singleChoice'
@@ -53,14 +53,6 @@ export default {
   data () {
     return {
       question: new ObjectiveQuestion(this.questionData.toJSON()),
-      draftGroup: this.questionData.subquestions.singleChoice.groups.length
-        ? null : {
-          uuid: Date.now(),
-          startNumber: this.sheet.avaliableSubquestionSerialNumber,
-          endNumber: null,
-          score: null,
-          optionLength: 4
-        },
       error: ''
     }
   },
@@ -92,50 +84,6 @@ export default {
 
     error () {
       this.$emit('form-validation', this.error)
-    }
-  },
-
-  methods: {
-    initial () {
-      this.supported.forEach(question => {
-        const Choice = question.name
-        this.addGroups(Choice)
-      })
-    },
-
-    addSingleChoiceGroup (group) {
-      this.error = ''
-      this.draftGroup = null
-      this.question.subquestions.singleChoice.addGroup(group)
-    },
-
-    updateSingleChoiceGroup (group) {
-      this.error = ''
-      this.question.subquestions.singleChoice.updateGroup(group)
-    },
-
-    addGroups (questionType) {
-      const { subquestions } = this.question
-      const questionObj = {
-        startNumber: this.sheet.avaliableSubquestionSerialNumber,
-        endNumber: null,
-        score: null,
-        optionLength: null
-      }
-      switch (questionType) {
-        case 'multipleChoice':
-          subquestions.multipleChoice.addGroup({
-            ...questionObj,
-            halfScore: null,
-            uuid: Date.now()
-          })
-          break
-        default:
-          subquestions.singleChoice.addGroup({
-            ...questionObj,
-            uuid: Date.now()
-          })
-      }
     }
   }
 
