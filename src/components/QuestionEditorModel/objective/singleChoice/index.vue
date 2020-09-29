@@ -90,10 +90,15 @@ export default {
     }
   },
   methods: {
-    addSingleChoiceGroup (group) {
+    addSingleChoiceGroup (groups) {
       this.error = ''
-      this.draftGroup = null
-      this.question.subquestions.singleChoice.addGroup(group)
+      const { formal, group } = groups
+      if (!formal) { // 非正式
+        this.draftGroup = null
+        this.question.subquestions.singleChoice.addGroup(group)
+      } else {
+        this.updateSingleChoiceGroup(group)
+      }
     },
 
     updateSingleChoiceGroup (group) {
