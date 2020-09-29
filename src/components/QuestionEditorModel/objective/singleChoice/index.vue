@@ -17,6 +17,7 @@
         ref="questionGroups"
         :group="draftGroup"
         :question="question"
+        :formal="false"
         @check-fail="error = $event"
         @group-valid="addSingleChoiceGroup"
         @remove="removeGroup"
@@ -100,13 +101,24 @@ export default {
       this.question.subquestions.singleChoice.updateGroup(group)
     },
 
-    removeGroup (group) {
-      this.question.subquestions.singleChoice.removeGroup(group)
+    removeGroup (groups) {
+      const { formal, group } = groups
+      if (!formal) {
+        this.draftGroup = null
+      } else {
+        this.question.subquestions.singleChoice.removeGroup(group)
+      }
     },
 
     addGroups () {
-      if (this.draftGroup) {
-        console.log(this.draftGroup)
+      if (!this.draftGroup) {
+        this.draftGroup = {
+          uuid: Date.now(),
+          startNumber: this.sheet.avaliableSubquestionSerialNumber,
+          endNumber: null,
+          score: null,
+          optionLength: 4
+        }
       }
     }
   }

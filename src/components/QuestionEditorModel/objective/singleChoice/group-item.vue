@@ -13,7 +13,7 @@
       @blur="checkGroupValid"
     />
     <span>个选项</span>
-    <i class="el-icon-delete" @click="$emit('remove', group)"></i>
+    <i class="el-icon-delete" @click="$emit('remove', {group:group,formal:formal})"></i>
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default {
     question: {
       type: Object,
       required: true
+    },
+    formal: {
+      type: Boolean,
+      default: true
     }
   },
 
