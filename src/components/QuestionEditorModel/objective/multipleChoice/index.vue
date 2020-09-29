@@ -1,15 +1,133 @@
 <template>
-  <div>
+  <div class="el-tab-panes">
+    <!-- 题组信息 -->
+    <div class="question-group-wrap">
+      <multipleChoiceGroup
+        ref="questionGroups"
+        v-for="group in question.subquestions.multipleChoice.groups"
+        :key="group.uuid"
+        :group="group"
+        :question="question"
+        @check-fail="error = $event"
+        @group-valid="updateSingleChoiceGroup"
+        @remove="removeGroup"
+      />
+      <multipleChoiceGroup
+        v-if="draftGroup"
+        ref="questionGroups"
+        :group="draftGroup"
+        :question="question"
+        :formal="false"
+        @check-fail="error = $event"
+        @group-valid="addSingleChoiceGroup"
+        @remove="removeGroup"
+      />
+    </div>
 
+    <!-- 分段小题 -->
+    <div
+      class="add-question-group"
+      @click="addGroups"
+    >+ 分段添加小题</div>
+
+    <!-- 小题详情 -->
+    <div class="question-groups-detail">
+      <group-list
+        v-for="subQuestion in questionList"
+        :key="subQuestion.uuid"
+        :groups-question="subQuestion"
+        :question="question"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-export default {
+import ObjectiveQuestion from '@/models/question/objective'
+import AnswerSheet from '@/models/answer-sheet'
+import multipleChoiceGroup from './group-item'
+import groupList from './question-list'
 
+export default {
+  components: {
+    multipleChoiceGroup,
+    groupList
+  },
+  props: {
+    questionData: {
+      type: ObjectiveQuestion,
+      required: true
+    },
+    question: {
+      type: ObjectiveQuestion,
+      required: true
+    },
+    sheet: {
+      type: AnswerSheet,
+      required: true
+    },
+    questionList: {
+      type: Array,
+      required: true
+    }
+  },
+  data () {
+    return {
+      draftGroup: this.questionData.subquestions.multipleChoice.groups.length
+        ? null : {
+          uuid: Date.now(),
+          startNumber: this.sheet.avaliableSubquestionSerialNumber,
+          endNumber: null,
+          score: null,
+          halfScore: null,
+          optionLength: 4
+        },
+      error: ''
+    }
+  },
+  watch: {
+    error () {
+      this.$emit('check-fail', this.error)
+    }
+  },
+  methods: {
+    addSingleChoiceGroup (group) {
+      this.error = ''
+      this.draftGroup = null
+      this.question.subquestions.multipleChoice.addGroup(group)
+    },
+
+    updateSingleChoiceGroup (group) {
+      this.error = ''
+      this.question.subquestions.multipleChoice.updateGroup(group)
+    },
+
+    removeGroup (groups) {
+      const { formal, group } = groups
+      if (!formal) {
+        this.draftGroup = null
+      } else {
+        this.question.subquestions.multipleChoice.removeGroup(group)
+      }
+    },
+
+    addGroups () {
+      if (!this.draftGroup) {
+        this.draftGroup = {
+          uuid: Date.now(),
+          startNumber: this.sheet.avaliableSubquestionSerialNumber,
+          endNumber: null,
+          score: null,
+          halfScore: null,
+          optionLength: 4
+        }
+      } else {
+        this.$message({
+          message: '已有分段,请添加完小题后,再添加',
+          type: 'warning'
+        })
+      }
+    }
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
