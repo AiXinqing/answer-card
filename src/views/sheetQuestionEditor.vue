@@ -26,7 +26,7 @@
 import AnswerSheet from '@/models/answer-sheet'
 import ObjectiveQuestion from '@/models/question/objective'
 import hjButton from '@/components/elementUi/button'
-import questionEditorModal from '@/components/question-editor-modal'
+import questionEditorModal from '@/components/QuestionEditorModel/'
 
 export default {
   components: {
