@@ -15,7 +15,12 @@
         :label="questionTab.title"
         :quesiton-detail="questionTab"
       >
-        <div class="el-tab-panes"></div>
+        <component
+          :is="questionTab.name"
+          :question="question"
+          :question-data="questionData"
+          :sheet="sheet"
+        />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -26,11 +31,13 @@
 // import groupingQuestion from './objective/grouping-question'
 import ObjectiveQuestion from '@/models/question/objective'
 import AnswerSheet from '@/models/answer-sheet'
+import singleChoice from './singleChoice'
+import multipleChoice from './multipleChoice'
 
 export default {
   components: {
-    // groupingQuestion,
-    // SingleChoiceGroup
+    singleChoice,
+    multipleChoice
   },
   props: {
     questionData: {
