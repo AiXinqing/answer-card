@@ -109,6 +109,7 @@ export default {
     },
 
     removeGroup (groups) {
+      this.error = ''
       const { formal, group } = groups
       if (!formal) {
         this.draftGroup = null
