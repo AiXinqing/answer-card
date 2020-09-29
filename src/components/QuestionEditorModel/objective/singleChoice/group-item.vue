@@ -46,6 +46,16 @@ export default {
     }
   },
 
+  computed: {
+    errorPrompt () {
+      const { endNumber, score, startNumber } = this.data
+      return endNumber === 0 ? '结束题号必须大于0'
+        : endNumber !== null && endNumber !== '' && startNumber === 0 ? '开始题号必须大于0'
+          : endNumber !== null && endNumber !== '' && endNumber < startNumber ? '开始题号不能大于结束题号'
+            : endNumber !== null && endNumber !== '' && score === null ? '分数不能为空' : ''
+    }
+  },
+
   watch: {
     group () {
       this.data = {
@@ -64,23 +74,10 @@ export default {
 
   methods: {
     checkGroupValid () {
-      this.errorMessage = ''
-      const { startNumber, endNumber, score } = this.data
-      if (startNumber <= 0) {
-        this.errorMessage = '开始题号必须大于0'
-        return
-      }
-      if (endNumber <= 0) {
-        this.errorMessage = '结束题号必须大于0'
-        return
-      }
-      if (startNumber > endNumber) {
-        this.errorMessage = '开始题号不能大于结束题号'
-        return
-      }
-      if (!score) {
-        this.errorMessage = '分数不能为空'
-        return
+      this.errorMessage = this.errorPrompt
+      const { startNumber, endNumber } = this.data
+      if (this.errorMessage !== '') {
+        return false
       }
       const serialNumbers = Array.from({ length: endNumber - startNumber + 1 })
         .map((_, index) => index + startNumber)
