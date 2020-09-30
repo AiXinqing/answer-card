@@ -15,14 +15,25 @@
         <span class="layui-btn layui-btn-xs">删除</span>
       </div>
       <div class="question-choice">
-        <div class="question-choice-list">
-          <div class="question-choice-item">
-            <span class=""></span>
+        <div
+          v-for="(group,index) in questionGroup"
+          :key="index"
+          class="question-choice-list"
+        >
+          <div
+            v-for="question in group"
+            :key="question.serialNumber"
+            class="question-choice-item"
+          >
+            <span class="serial-number">{{question.serialNumber}}</span>
+            <span class="choice-item">[<i>A</i>]</span>
+            <span class="choice-item">[<i>B</i>]</span>
+            <span class="choice-item">[<i>C</i>]</span>
+            <span class="choice-item">[<i>C</i>]</span>
           </div>
         </div>
       </div>
     </div>
-    <!-- {{questionList}} -->
   </div>
 </template>
 
@@ -43,7 +54,23 @@ export default {
     },
 
     serialNumber () {
-      return QUESTION_NUMBERS[this.question.serialNumber] || 'yi'
+      return QUESTION_NUMBERS[this.question.serialNumber] || '一'
+    },
+
+    questionGroup () {
+      const arr = []
+      const { subquestions, groupSize } = this.question
+      for (const i in subquestions) {
+        arr.push(...subquestions[i].subquestions)
+      }
+
+      const productData = []
+      const num = Math.ceil(arr.length / groupSize)
+      for (let i = 0; i < num; i++) {
+        productData.push(arr.slice(i * groupSize, i * groupSize + groupSize))
+      }
+
+      return productData
     }
   }
 }
@@ -51,5 +78,40 @@ export default {
 
 <style lang="less">
   @import '~@/assets/css/questionModal.less';
+
+  .question-content{
+    margin-top:20px;
+  }
+
+  .question-choice{
+    display: flex;
+    flex-wrap:wrap
+  }
+
+  .question-choice-item {
+    display: flex;
+    align-items:center;
+    font-size:14px;
+
+    .serial-number{
+      font-size: 12px;
+      width: 40px;
+      text-align: right;
+      display: inline-block;
+      margin-right: 3px;
+    }
+
+    .choice-item{
+      margin-left: 8px;
+      font-size: 12px;
+      position: relative;
+      top: -1px;
+
+      i{
+        font-style: normal;
+        padding: 0 1px;
+      }
+    }
+  }
 
 </style>
