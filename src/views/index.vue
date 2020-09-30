@@ -22,7 +22,7 @@ import AnswerSheet from '@/models/answer-sheet'
 import Head from './Head'
 import sheetSizeEditor from './sheetSizeEditor'
 import sheetQuestionEditor from './sheetQuestionEditor'
-import PageContainer from './page/answerSheet'
+import PageContainer from './page/questions'
 
 export default {
   name: 'Home',
