@@ -7,6 +7,14 @@
       <answer-sheet-info
         @open-student-info-dialog="openStudentInfoDialog"
       />
+      <div class="questions">
+        <question-item
+          v-for="question in questions"
+          :key="question.id"
+          :question="question"
+          @height-resize="handleResize($event, question)"
+        />
+      </div>
     </div>
     <student-info-editor-modal
       ref="studentInfoEditorModal"
@@ -19,17 +27,38 @@
 import AnswerSheet, { PAGE_SIZE } from '@/models/answer-sheet'
 import AnswerSheetInfo from './answerSheetInfo'
 import studentInfoEditorModal from '@/components/student-info-editor-modal'
+import QuestionItem from './question-item'
 
 export default {
   components: {
     AnswerSheetInfo,
-    studentInfoEditorModal
+    studentInfoEditorModal,
+    QuestionItem
   },
 
   props: {
     sheet: {
       type: AnswerSheet,
       required: true
+    }
+  },
+
+  data () {
+    return {
+      questions: [
+        {
+          id: 1,
+          height: 200
+        },
+        {
+          id: 2,
+          height: 300
+        },
+        {
+          id: 3,
+          height: 300
+        }
+      ]
     }
   },
 
@@ -51,6 +80,10 @@ export default {
   methods: {
     openStudentInfoDialog () {
       this.$refs.studentInfoEditorModal.open()
+    },
+
+    handleResize (height, question) {
+      question.height = height
     }
   }
 }
