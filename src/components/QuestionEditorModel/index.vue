@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import AnswerSheet from '@/models/answer-sheet'
 import { QUESTION_NUMBERS } from '@/models/question'
 import hjDialog from '@/components/elementUi/dialog'
 import hjSelect from '@/components/elementUi/select'
@@ -81,17 +80,8 @@ export default {
     hjButton,
     objectiveQuestionTabs
   },
-  props: {
-    sheet: {
-      type: AnswerSheet,
-      required: true
-    }
-  },
-  provide () {
-    return {
-      sheet: this.sheet
-    }
-  },
+  inject: ['sheet'],
+
   data () {
     return {
       question: null,

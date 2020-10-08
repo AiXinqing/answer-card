@@ -33,12 +33,20 @@ export default {
     hjButton,
     questionEditorModal
   },
+
   props: {
     sheet: {
       type: AnswerSheet,
       defualt: new AnswerSheet()
     }
   },
+
+  provide () {
+    return {
+      sheet: this.sheet
+    }
+  },
+
   data () {
     return {
       checked: false

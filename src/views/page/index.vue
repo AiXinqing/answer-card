@@ -5,7 +5,6 @@
       class="page_number_content"
     >
       <answer-sheet-info
-        :sheet="sheet"
         @open-student-info-dialog="openStudentInfoDialog"
       />
     </div>
@@ -40,6 +39,12 @@ export default {
         width: `${this.sheet.sheetSize}px`,
         height: `${PAGE_SIZE}px`
       }
+    }
+  },
+
+  provide () {
+    return {
+      sheet: this.sheet
     }
   },
 
