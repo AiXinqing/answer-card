@@ -139,7 +139,12 @@ export default class AnswerSheet {
   }
 
   addQuestion (question) {
+    question.sheet = this
     Vue.set(this.questions, question.serialNumber, question)
+  }
+
+  removeQuestion (question) {
+    Vue.set(this.questions, question.serialNumber, undefined)
   }
 
   // 设置准考证号的长度
@@ -155,7 +160,7 @@ export default class AnswerSheet {
         return acc
       }, {})),
       student: this.student.toJSON(),
-      questions: this.questions.map(question => question.toJSON())
+      questions: this.questions.filter(Boolean).map(question => question.toJSON())
     }
   }
 }

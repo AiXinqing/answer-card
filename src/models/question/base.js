@@ -3,10 +3,11 @@ export default class Question {
     return ''
   }
 
-  constructor (attrs) {
+  constructor (attrs, sheet) {
     this.serialNumber = attrs.serialNumber || 0
     this.title = attrs.title || this.constructor.Title
     this.subquestions = []
+    this.sheet = sheet
   }
 
   get totalScore () {

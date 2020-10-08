@@ -8,8 +8,8 @@ export default class ObjectiveQuestion extends Question {
     return '客观题'
   }
 
-  constructor (attrs) {
-    super(attrs)
+  constructor (attrs, sheet) {
+    super(attrs, sheet)
 
     this.title = attrs.title || ObjectiveQuestion.Title
 
