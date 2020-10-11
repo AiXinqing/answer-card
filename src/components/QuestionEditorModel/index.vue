@@ -29,7 +29,6 @@
         ref="objectiveTabs"
         v-if="question"
         :question-data="question"
-        :sheet="sheet"
         @form-validation="formValidation"
         @confirm-button="isDisabled = $event"
       />

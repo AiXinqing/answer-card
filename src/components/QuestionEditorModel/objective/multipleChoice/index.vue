@@ -42,7 +42,6 @@
 
 <script>
 import ObjectiveQuestion from '@/models/question/objective'
-import AnswerSheet from '@/models/answer-sheet'
 import multipleChoiceGroup from './group-item'
 import questionItem from './question-item'
 
@@ -51,16 +50,16 @@ export default {
     multipleChoiceGroup,
     questionItem
   },
+
+  inject: ['sheet'],
+
   props: {
     question: {
       type: ObjectiveQuestion,
       required: true
-    },
-    sheet: {
-      type: AnswerSheet,
-      required: true
     }
   },
+
   data () {
     return {
       draftGroup: null,

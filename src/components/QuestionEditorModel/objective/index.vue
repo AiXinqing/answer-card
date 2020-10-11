@@ -10,16 +10,15 @@
     <div class="no-switching-tabs" v-if="noSwitchingTabs" />
     <el-tabs type="border-card">
       <el-tab-pane
-        v-for="(questionTab,index) in supported"
-        :key="index"
-        :label="questionTab.title"
-        :quesiton-detail="questionTab"
+        v-for="(choice, name) in question.subquestions"
+        :key="name"
+        :label="choice.title"
+        :quesiton-detail="choice"
       >
         <component
-          :is="questionTab.name"
-          :key="questionTab.title"
+          :is="name"
+          :key="name"
           :question="question"
-          :sheet="sheet"
           @check-fail="error = $event"
         />
       </el-tab-pane>
@@ -30,7 +29,6 @@
 <script>
 
 import ObjectiveQuestion from '@/models/question/objective'
-import AnswerSheet from '@/models/answer-sheet'
 import singleChoice from './singleChoice'
 import multipleChoice from './multipleChoice'
 import judgmentChoice from './judgmentChoice'
@@ -45,16 +43,14 @@ export default {
     questionData: {
       type: ObjectiveQuestion,
       required: true
-    },
-    sheet: {
-      type: AnswerSheet,
-      required: true
     }
   },
 
+  inject: ['sheet'],
+
   data () {
     return {
-      question: new ObjectiveQuestion(this.questionData.toJSON()),
+      question: new ObjectiveQuestion(this.questionData.toJSON(), this.sheet),
       error: '',
       disabled: true
     }
@@ -80,7 +76,7 @@ export default {
   watch: {
     questionData: {
       handler (question) {
-        this.question = new ObjectiveQuestion(question.toJSON())
+        this.question = new ObjectiveQuestion(question.toJSON(), this.sheet)
       }
     },
 

@@ -11,8 +11,8 @@ export default class ChoiceQuestion extends Question {
     return '选择题'
   }
 
-  constructor (attrs) {
-    super(attrs)
+  constructor (attrs, sheet) {
+    super(attrs, sheet)
 
     this.title = attrs.title || this.constructor.Title
     // Array<Group>
