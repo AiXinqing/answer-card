@@ -5,7 +5,6 @@
       class="page_number_content"
     >
       <answer-sheet-info
-        :sheet="sheet"
         @open-student-info-dialog="openStudentInfoDialog"
       />
 
@@ -40,6 +39,12 @@ export default {
     sheet: {
       type: AnswerSheet,
       required: true
+    }
+  },
+
+  provide () {
+    return {
+      sheet: this.sheet
     }
   },
 
