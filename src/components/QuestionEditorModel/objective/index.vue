@@ -8,12 +8,14 @@
     </div>
     <!-- 禁止切换tabs -->
     <div class="no-switching-tabs" v-if="noSwitchingTabs" />
-    <el-tabs type="border-card">
+    <el-tabs
+      type="border-card"
+      @tab-click="handleTabChange"
+    >
       <el-tab-pane
         v-for="(choice, name) in question.subquestions"
         :key="name"
         :label="choice.title"
-        :quesiton-detail="choice"
       >
         <component
           :is="name"
@@ -56,17 +58,6 @@ export default {
   },
 
   computed: {
-    supported () {
-      const { subquestions } = this.question
-      const arr = []
-      for (const i in subquestions) {
-        arr.push({
-          ...subquestions[i],
-          name: i
-        })
-      }
-      return arr
-    },
     noSwitchingTabs () {
       return Boolean(this.error)
     },
@@ -90,6 +81,12 @@ export default {
 
     disabled () {
       this.$emit('confirm-button', this.disabled)
+    }
+  },
+
+  methods: {
+    handleTabChange (tab) {
+      tab.$children[0].resetDraftGroup()
     }
   }
 }

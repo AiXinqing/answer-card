@@ -80,6 +80,14 @@ export default {
   },
 
   methods: {
+    resetDraftGroup () {
+      if (this.draftGroup) {
+        this.draftGroup = {
+          ...this.draftGroup,
+          startNumber: this.question.avaliableSubquestionSerialNumber
+        }
+      }
+    },
     addGroup (group) {
       this.error = ''
       this.draftGroup = null

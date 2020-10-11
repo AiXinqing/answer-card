@@ -67,19 +67,6 @@ export default {
     }
   },
 
-  computed: {
-    avaliableSubquestionSerialNumber () {
-      let number = this.sheet.avaliableSubquestionSerialNumber
-      while (
-        !this.sheet.isSubquestionSerialNumberVaild(number) ||
-        !this.question.isSerialNumberValid(number)
-      ) {
-        number += 1
-      }
-      return number
-    }
-  },
-
   created () {
     if (!this.question.subquestions.multipleChoice.groups.length) {
       this.addDraftGroup()
@@ -92,6 +79,14 @@ export default {
     }
   },
   methods: {
+    resetDraftGroup () {
+      if (this.draftGroup) {
+        this.draftGroup = {
+          ...this.draftGroup,
+          startNumber: this.question.avaliableSubquestionSerialNumber
+        }
+      }
+    },
     addGroup (group) {
       this.error = ''
       this.draftGroup = null
@@ -123,7 +118,7 @@ export default {
         })
       } else {
         this.draftGroup = {
-          startNumber: this.avaliableSubquestionSerialNumber,
+          startNumber: this.question.avaliableSubquestionSerialNumber,
           endNumber: null,
           score: null,
           halfScore: null,
