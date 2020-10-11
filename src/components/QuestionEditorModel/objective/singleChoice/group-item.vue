@@ -77,6 +77,7 @@ export default {
       const serialNumbers = Array.from({ length: endNumber - startNumber + 1 })
         .map((_, index) => index + startNumber)
       return serialNumbers.every(number => {
+        if (this.group.uuid && (this.group.startNumber <= number && this.group.endNumber >= number)) return true
         const valid = this.sheet.isSubquestionSerialNumberVaild(number) &&
           !this.question.serialNumberSet.has(number)
         if (!valid) {

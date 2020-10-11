@@ -51,8 +51,7 @@ export default {
   data () {
     return {
       question: new ObjectiveQuestion(this.questionData.toJSON(), this.sheet),
-      error: '',
-      disabled: true
+      error: ''
     }
   },
 
@@ -70,6 +69,11 @@ export default {
     },
     noSwitchingTabs () {
       return Boolean(this.error)
+    },
+
+    disabled () {
+      return this.noSwitchingTabs || !Object.values(this.question.subquestions)
+        .some(question => question.subquestions.length > 0)
     }
   },
 
@@ -84,15 +88,10 @@ export default {
       this.$emit('form-validation', this.error)
     },
 
-    supported () {
-      const index = this.supported.findIndex(question => question.groups.length > 0)
-      if (index > -1) {
-        this.disabled = false
-      } else { this.disabled = true }
+    disabled () {
       this.$emit('confirm-button', this.disabled)
     }
   }
-
 }
 </script>
 

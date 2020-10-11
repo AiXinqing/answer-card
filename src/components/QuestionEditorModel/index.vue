@@ -56,7 +56,7 @@
         </div>
         <el-checkbox v-model="postpone">大题号自动顺延</el-checkbox>
       </div> -->
-      <div class="error-message" v-if="error">{{errorMessage}}</div>
+      <div class="error-message" v-if="errorMessage">{{errorMessage}}</div>
     </div>
     <div class="dialog-footer ">
       <hj-button type="cancel"  class="cancel"  @click="cancel">取 消</hj-button>
@@ -122,10 +122,6 @@ export default {
           this.question.serialNumber = number
         }
       }
-    },
-
-    error () {
-      return this.errorMessage === '' ? 0 : 1
     }
   },
   methods: {
