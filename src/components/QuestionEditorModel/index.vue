@@ -29,7 +29,6 @@
         ref="objectiveTabs"
         v-if="question"
         :question-data="question"
-        :sheet="sheet"
         @form-validation="formValidation"
         @confirm-button="isDisabled = $event"
       />
@@ -57,7 +56,7 @@
         </div>
         <el-checkbox v-model="postpone">大题号自动顺延</el-checkbox>
       </div> -->
-      <div class="error-message" v-if="error">{{errorMessage}}</div>
+      <div class="error-message" v-if="errorMessage">{{errorMessage}}</div>
     </div>
     <div class="dialog-footer ">
       <hj-button type="cancel"  class="cancel"  @click="cancel">取 消</hj-button>
@@ -67,7 +66,6 @@
 </template>
 
 <script>
-import AnswerSheet from '@/models/answer-sheet'
 import { QUESTION_NUMBERS } from '@/models/question'
 import hjDialog from '@/components/elementUi/dialog'
 import hjSelect from '@/components/elementUi/select'
@@ -81,17 +79,8 @@ export default {
     hjButton,
     objectiveQuestionTabs
   },
-  props: {
-    sheet: {
-      type: AnswerSheet,
-      required: true
-    }
-  },
-  provide () {
-    return {
-      sheet: this.sheet
-    }
-  },
+  inject: ['sheet'],
+
   data () {
     return {
       question: null,
@@ -133,10 +122,6 @@ export default {
           this.question.serialNumber = number
         }
       }
-    },
-
-    error () {
-      return this.errorMessage === '' ? 0 : 1
     }
   },
   methods: {

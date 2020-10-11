@@ -42,7 +42,6 @@
 
 <script>
 import ObjectiveQuestion from '@/models/question/objective'
-import AnswerSheet from '@/models/answer-sheet'
 import SingleChoiceGroup from './group-item'
 import questionItem from './question-item'
 
@@ -51,33 +50,20 @@ export default {
     SingleChoiceGroup,
     questionItem
   },
+
+  inject: ['sheet'],
+
   props: {
     question: {
       type: ObjectiveQuestion,
       required: true
-    },
-    sheet: {
-      type: AnswerSheet,
-      required: true
     }
   },
+
   data () {
     return {
       draftGroup: null,
       error: ''
-    }
-  },
-
-  computed: {
-    avaliableSubquestionSerialNumber () {
-      let number = this.sheet.avaliableSubquestionSerialNumber
-      while (
-        !this.sheet.isSubquestionSerialNumberVaild(number) ||
-        !this.question.isSerialNumberValid(number)
-      ) {
-        number += 1
-      }
-      return number
     }
   },
 
@@ -94,6 +80,14 @@ export default {
   },
 
   methods: {
+    resetDraftGroup () {
+      if (this.draftGroup) {
+        this.draftGroup = {
+          ...this.draftGroup,
+          startNumber: this.question.avaliableSubquestionSerialNumber
+        }
+      }
+    },
     addGroup (group) {
       this.error = ''
       this.draftGroup = null
@@ -101,11 +95,14 @@ export default {
         ...group,
         uuid: Date.now()
       })
+      console.log(this.question.serialNumberSet)
     },
 
     updateGroup (group) {
       this.error = ''
       this.question.subquestions.singleChoice.updateGroup(group)
+
+      console.log(this.question.serialNumberSet)
     },
 
     removeGroup (group) {
@@ -125,7 +122,7 @@ export default {
         })
       } else {
         this.draftGroup = {
-          startNumber: this.avaliableSubquestionSerialNumber,
+          startNumber: this.question.avaliableSubquestionSerialNumber,
           endNumber: null,
           score: null,
           optionLength: 4

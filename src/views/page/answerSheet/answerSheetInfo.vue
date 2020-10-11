@@ -11,14 +11,13 @@
       @open-student-info-dialog="openStudentInfoDialog"
     />
     <div class="sheet-info">
-      <precaution-column :sheet="sheet" />
-      <sheet-number-table :sheet="sheet" />
+      <precaution-column />
+      <sheet-number-table />
     </div>
   </div>
 </template>
 
 <script>
-import AnswerSheet from '@/models/answer-sheet'
 import studentInfo from './subassembly/studentInfo'
 import sheetNumberTable from './subassembly/sheetNumberTable'
 import precautionColumn from './subassembly/precautionColumn'
@@ -29,12 +28,9 @@ export default {
     sheetNumberTable,
     precautionColumn
   },
-  props: {
-    sheet: {
-      type: AnswerSheet,
-      required: true
-    }
-  },
+
+  inject: ['sheet'],
+
   methods: {
     openStudentInfoDialog () {
       this.$emit('open-student-info-dialog')

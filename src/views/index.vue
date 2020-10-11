@@ -11,6 +11,7 @@
         :sheet="sheet"
       />
       <sheet-question-editor
+        v-if="sheet"
         :sheet="sheet"
       />
     </div>

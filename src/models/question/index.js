@@ -1,14 +1,7 @@
-import JudgmentChoiceQuestion from './judgment-choice'
-import MultipleChoiceQuestion from './multiple-choice'
-import SingleChoiceQuestion from './single-choice'
+import ObjectiveQuestion from './objective'
 
 export const SUPPORTED_QUESTION = {
-  objectiveQuestions: [
-    SingleChoiceQuestion,
-    MultipleChoiceQuestion,
-    JudgmentChoiceQuestion
-  ],
-  subjectiveQuestions: []
+  ObjectiveQuestion
 }
 
 export const QUESTION_NUMBERS = [

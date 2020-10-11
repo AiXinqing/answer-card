@@ -1,16 +1,16 @@
 <template>
   <div class="single-choice-group question-group-item">
     <span>从</span>
-    <el-input v-model.number="data.startNumber" size="mini" @blur="checkGroupValid"/>
+    <el-input v-model.number="data.startNumber" size="mini" @blur="fireGroupChange"/>
     <span>题到</span>
-    <el-input v-model.number="data.endNumber" size="mini" @blur="checkGroupValid"/>
+    <el-input v-model.number="data.endNumber" size="mini" @blur="fireGroupChange"/>
     <span>题,每题</span>
-    <el-input v-model.number="data.score" size="mini" @blur="checkGroupValid"/>
+    <el-input v-model.number="data.score" size="mini" @blur="fireGroupChange"/>
     <span>分,每题</span>
     <el-input
       v-model.number="data.optionLength"
       size="mini"
-      @blur="checkGroupValid"
+      @blur="fireGroupChange"
     />
     <span>个选项</span>
     <i class="el-icon-delete" @click="$emit('remove', group)"></i>
@@ -57,14 +57,6 @@ export default {
       this.data = {
         ...this.group
       }
-    },
-
-    errorMessage (message) {
-      if (message) {
-        this.$emit('check-fail', message)
-      } else {
-        this.$emit('group-valid', { ...this.data })
-      }
     }
   },
 
@@ -77,6 +69,7 @@ export default {
       const serialNumbers = Array.from({ length: endNumber - startNumber + 1 })
         .map((_, index) => index + startNumber)
       return serialNumbers.every(number => {
+        if (this.group.uuid && (this.group.startNumber <= number && this.group.endNumber >= number)) return true
         const valid = this.sheet.isSubquestionSerialNumberVaild(number) &&
           !this.question.serialNumberSet.has(number)
         if (!valid) {
@@ -84,6 +77,16 @@ export default {
         }
         return valid
       })
+    },
+
+    fireGroupChange () {
+      this.checkGroupValid()
+
+      if (this.errorMessage) {
+        this.$emit('check-fail', this.errorMessage)
+      } else {
+        this.$emit('group-valid', { ...this.data })
+      }
     }
   }
 }

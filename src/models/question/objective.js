@@ -8,17 +8,17 @@ export default class ObjectiveQuestion extends Question {
     return '客观题'
   }
 
-  constructor (attrs) {
-    super(attrs)
+  constructor (attrs, sheet) {
+    super(attrs, sheet)
 
     this.title = attrs.title || ObjectiveQuestion.Title
 
     this.groupSize = attrs.groupSize || 5
 
     this.subquestions = {
-      singleChoice: new SingleChoiceQuestion(attrs.subquestions.singleChoice),
-      multipleChoice: new MultipleChoiceQuestion(attrs.subquestions.multipleChoice),
-      judgmentChoice: new JudgmentChoiceQuestion(attrs.subquestions.judgmentChoice)
+      singleChoice: new SingleChoiceQuestion(attrs.subquestions.singleChoice, sheet),
+      multipleChoice: new MultipleChoiceQuestion(attrs.subquestions.multipleChoice, sheet),
+      judgmentChoice: new JudgmentChoiceQuestion(attrs.subquestions.judgmentChoice, sheet)
     }
   }
 
@@ -34,6 +34,17 @@ export default class ObjectiveQuestion extends Question {
       ...this.subquestions.multipleChoice.serialNumberSet,
       ...this.subquestions.judgmentChoice.serialNumberSet
     ])
+  }
+
+  get avaliableSubquestionSerialNumber () {
+    let number = this.sheet.avaliableSubquestionSerialNumber
+    while (
+      !this.sheet.isSubquestionSerialNumberVaild(number) ||
+      !this.isSerialNumberValid(number)
+    ) {
+      number += 1
+    }
+    return number
   }
 
   toJSON () {

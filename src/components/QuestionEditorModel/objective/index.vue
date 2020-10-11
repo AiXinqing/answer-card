@@ -8,18 +8,19 @@
     </div>
     <!-- 禁止切换tabs -->
     <div class="no-switching-tabs" v-if="noSwitchingTabs" />
-    <el-tabs type="border-card">
+    <el-tabs
+      type="border-card"
+      @tab-click="handleTabChange"
+    >
       <el-tab-pane
-        v-for="(questionTab,index) in supported"
-        :key="index"
-        :label="questionTab.title"
-        :quesiton-detail="questionTab"
+        v-for="(choice, name) in question.subquestions"
+        :key="name"
+        :label="choice.title"
       >
         <component
-          :is="questionTab.name"
-          :key="questionTab.title"
+          :is="name"
+          :key="name"
           :question="question"
-          :sheet="sheet"
           @check-fail="error = $event"
         />
       </el-tab-pane>
@@ -30,7 +31,6 @@
 <script>
 
 import ObjectiveQuestion from '@/models/question/objective'
-import AnswerSheet from '@/models/answer-sheet'
 import singleChoice from './singleChoice'
 import multipleChoice from './multipleChoice'
 import judgmentChoice from './judgmentChoice'
@@ -45,42 +45,33 @@ export default {
     questionData: {
       type: ObjectiveQuestion,
       required: true
-    },
-    sheet: {
-      type: AnswerSheet,
-      required: true
     }
   },
 
+  inject: ['sheet'],
+
   data () {
     return {
-      question: new ObjectiveQuestion(this.questionData.toJSON()),
-      error: '',
-      disabled: true
+      question: new ObjectiveQuestion(this.questionData.toJSON(), this.sheet),
+      error: ''
     }
   },
 
   computed: {
-    supported () {
-      const { subquestions } = this.question
-      const arr = []
-      for (const i in subquestions) {
-        arr.push({
-          ...subquestions[i],
-          name: i
-        })
-      }
-      return arr
-    },
     noSwitchingTabs () {
       return Boolean(this.error)
+    },
+
+    disabled () {
+      return this.noSwitchingTabs || !Object.values(this.question.subquestions)
+        .some(question => question.subquestions.length > 0)
     }
   },
 
   watch: {
     questionData: {
       handler (question) {
-        this.question = new ObjectiveQuestion(question.toJSON())
+        this.question = new ObjectiveQuestion(question.toJSON(), this.sheet)
       }
     },
 
@@ -88,15 +79,16 @@ export default {
       this.$emit('form-validation', this.error)
     },
 
-    supported () {
-      const index = this.supported.findIndex(question => question.groups.length > 0)
-      if (index > -1) {
-        this.disabled = false
-      } else { this.disabled = true }
+    disabled () {
       this.$emit('confirm-button', this.disabled)
     }
-  }
+  },
 
+  methods: {
+    handleTabChange (tab) {
+      tab.$children[0].resetDraftGroup()
+    }
+  }
 }
 </script>
 

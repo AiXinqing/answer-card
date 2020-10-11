@@ -30,12 +30,7 @@
 import AnswerSheet from '@/models/answer-sheet'
 
 export default {
-  props: {
-    sheet: {
-      type: AnswerSheet,
-      required: true
-    }
-  },
+  inject: ['sheet'],
 
   computed: {
     precautions () {
