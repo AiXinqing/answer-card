@@ -67,19 +67,6 @@ export default {
     }
   },
 
-  computed: {
-    avaliableSubquestionSerialNumber () {
-      let number = this.sheet.avaliableSubquestionSerialNumber
-      while (
-        !this.sheet.isSubquestionSerialNumberVaild(number) ||
-        !this.question.isSerialNumberValid(number)
-      ) {
-        number += 1
-      }
-      return number
-    }
-  },
-
   created () {
     if (!this.question.subquestions.singleChoice.groups.length) {
       this.addDraftGroup()
@@ -100,11 +87,14 @@ export default {
         ...group,
         uuid: Date.now()
       })
+      console.log(this.question.serialNumberSet)
     },
 
     updateGroup (group) {
       this.error = ''
       this.question.subquestions.singleChoice.updateGroup(group)
+
+      console.log(this.question.serialNumberSet)
     },
 
     removeGroup (group) {
@@ -124,7 +114,7 @@ export default {
         })
       } else {
         this.draftGroup = {
-          startNumber: this.avaliableSubquestionSerialNumber,
+          startNumber: this.question.avaliableSubquestionSerialNumber,
           endNumber: null,
           score: null,
           optionLength: 4
