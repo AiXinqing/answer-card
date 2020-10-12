@@ -7,6 +7,7 @@ export default class Question {
     this.serialNumber = attrs.serialNumber || 0
     this.title = attrs.title || this.constructor.Title
     this.subquestions = []
+    this.uuid = attrs.uuid
     this.sheet = sheet
   }
 
@@ -29,6 +30,7 @@ export default class Question {
 
   toJSON () {
     return {
+      uuid: this.uuid,
       type: this.constructor.name,
       title: this.title,
       serialNumber: this.serialNumber,

@@ -49,6 +49,7 @@ export default class ObjectiveQuestion extends Question {
 
   toJSON () {
     return {
+      uuid: this.uuid,
       title: this.title,
       type: this.constructor.name,
       serialNumber: this.serialNumber,

@@ -30,6 +30,7 @@ export default class Choice {
 
   toJSON () {
     return {
+      uuid: this.uuid,
       serialNumber: this.serialNumber,
       score: this.score,
       optionLength: this.optionLength

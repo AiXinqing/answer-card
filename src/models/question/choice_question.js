@@ -108,6 +108,7 @@ export default class ChoiceQuestion extends Question {
 
   toJSON () {
     return {
+      uuid: this.uuid,
       type: this.constructor.name,
       serialNumber: this.serialNumber,
       title: this.title,
