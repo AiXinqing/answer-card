@@ -20,6 +20,7 @@
         <component
           :is="name"
           :key="name"
+          :choice="choice"
           :question="question"
           @check-fail="error = $event"
         />

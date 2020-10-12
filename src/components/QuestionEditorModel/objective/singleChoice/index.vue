@@ -4,7 +4,7 @@
     <div class="question-group-wrap">
       <SingleChoiceGroup
         ref="questionGroups"
-        v-for="group in question.subquestions.singleChoice.groups"
+        v-for="group in choice.groups"
         :key="group.uuid"
         :group="group"
         :question="question"
@@ -32,18 +32,18 @@
     <!-- 小题详情 -->
     <div class="question-groups-detail">
       <question-item
-        v-for="choice in question.subquestions.singleChoice.subquestions"
-        :key="choice.serialNumber"
-        :question="choice"
+        v-for="item in choice.subquestions"
+        :key="item.serialNumber"
+        :question="item"
       />
     </div>
   </div>
 </template>
 
 <script>
-import ObjectiveQuestion from '@/models/question/objective'
 import SingleChoiceGroup from './group-item'
 import questionItem from './question-item'
+import { IndexMixins } from '../choice-mixins'
 
 export default {
   components: {
@@ -51,82 +51,15 @@ export default {
     questionItem
   },
 
-  inject: ['sheet'],
-
-  props: {
-    question: {
-      type: ObjectiveQuestion,
-      required: true
-    }
-  },
-
-  data () {
-    return {
-      draftGroup: null,
-      error: ''
-    }
-  },
-
-  created () {
-    if (!this.question.subquestions.singleChoice.groups.length) {
-      this.addDraftGroup()
-    }
-  },
-
-  watch: {
-    error () {
-      this.$emit('check-fail', this.error)
-    }
-  },
+  mixins: [IndexMixins],
 
   methods: {
-    resetDraftGroup () {
-      if (this.draftGroup) {
-        this.draftGroup = {
-          ...this.draftGroup,
-          startNumber: this.question.avaliableSubquestionSerialNumber
-        }
-      }
-    },
-    addGroup (group) {
-      this.error = ''
-      this.draftGroup = null
-      this.question.subquestions.singleChoice.addGroup({
-        ...group,
-        uuid: Date.now()
-      })
-      console.log(this.question.serialNumberSet)
-    },
-
-    updateGroup (group) {
-      this.error = ''
-      this.question.subquestions.singleChoice.updateGroup(group)
-
-      console.log(this.question.serialNumberSet)
-    },
-
-    removeGroup (group) {
-      this.error = ''
-      if (group.uuid) {
-        this.question.subquestions.singleChoice.removeGroup(group)
-      } else {
-        this.draftGroup = null
-      }
-    },
-
-    addDraftGroup () {
-      if (this.draftGroup) {
-        this.$message({
-          message: '已有分段,请添加完小题后,再添加',
-          type: 'warning'
-        })
-      } else {
-        this.draftGroup = {
-          startNumber: this.question.avaliableSubquestionSerialNumber,
-          endNumber: null,
-          score: null,
-          optionLength: 4
-        }
+    gennerateDraftGroup () {
+      return {
+        startNumber: this.question.avaliableSubquestionSerialNumber,
+        endNumber: null,
+        score: null,
+        optionLength: 4
       }
     }
   }
